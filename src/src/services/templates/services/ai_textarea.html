@@ -1,0 +1,24 @@
+<div class="flex flex-col gap-2 ">
+
+    <div class="flex-1">
+        <textarea
+            name="{{ widget.name }}"
+            id="{{ widget.attrs.id }}"
+            class="textarea textarea-primary w-full"
+            {% include "django/forms/widgets/attrs.html" %}
+        >{{ widget.value|default_if_none:"" }}</textarea>
+
+        <p id="error_{{widget.attrs.id }}" class="text-xs text-error mt-1"></p>
+    </div>
+
+    <button type="button"
+        onclick="rewriteWithAi('{{ widget.attrs.id }}', 'counter')"
+        class="text-end text-sm text-primary"
+    >
+        <span>Improve with AI</span>
+        <span class="counter">{{ widget.ai_rewrite_limit_used }}</span>
+        / {{ widget.ai_rewrite_limit }}
+
+    </button>
+
+</div>

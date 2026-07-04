@@ -1,0 +1,683 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n socialaccount allauth static %}
+
+{% block head_title %}
+{% blocktrans with first=talent.user.first_name last=talent.user.last_name %}
+Talent | {{ first }} {{ last }}
+{% endblocktrans %}
+{% endblock head_title %}
+
+{% block content %}
+<main id="main">
+    <div class="card w-full">
+        <div class="card-body">
+            <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between">
+                <div class="flex flex-row space-x-10 ">
+                    <div class="flex items-center justify-center size-24 rounded-full">
+                        <div class="avatar w-full h-full">
+                            <div
+                                class="ring-neutral ring-offset-base-100 rounded-full ring-2 ring-offset-2 w-full h-full">
+                                <img src="{{ talent.user.profile_image }}" alt="{% trans 'profile picture' %}" onerror="this.src='https://api.dicebear.com/7.x/personas/svg?seed={{ talent.user.first_name }}{{ talent.user.last_name }}'" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex flex-row space-x-3">
+                            <h1 class="font-bold text-2xl">{{talent.user.first_name|title}}
+                                {{talent.user.last_name|title}}
+                            </h1>
+                            <div class="flex space-x-1 ml-2">
+                                <img src="https://i.ibb.co/jZTWzHR4/Untitled-designhh.gif" class="w-8 h-8 object-contain" title="Diamond Badge" alt="Diamond Badge" />
+                                <img src="https://i.ibb.co/WNLWw5gC/Untitled-design.gif" class="w-8 h-8 object-contain" title="Gold Badge" alt="Gold Badge" />
+                                <img src="https://i.ibb.co/h11VN3Wb/Untitled-designf.png" class="w-8 h-8 object-contain" title="Silver Badge" alt="Silver Badge" />
+                            </div>
+                            {% element badge talent=talent %} {% endelement%}
+                        </div>
+                        <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 ">
+                            {% for role in talent.roles_display %}
+                            <div class="badge badge-neutral badge-dash">{{role|title}}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mt-4 flex flex-row items-center space-x-6">
+                            <div class="flex flex-row items-center space-x-2">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                    </svg>
+                                </div>
+                                <p class="flex flex-col">
+                                    <span class="font-bold">{{talent.videos.count}}</span>
+                                    <span>{% trans "Videos" %}</span>
+                                </p>
+                            </div>
+                            <div class="divider divider-horizontal"></div>
+                            <div class="flex flex-row items-center space-x-2">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
+                                    </svg>
+
+                                </div>
+                                <p class="flex flex-col">
+                                    <span class="font-bold">{{talent.get_platform_count}}</span>
+                                    <span>{% trans "Platforms" %}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-4 justify-end">
+                    {% if is_user %}
+                    <button onclick="video_modal.showModal()" class="btn btn-primary">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </span>
+                        {% trans 'Add work' %}
+                    </button>
+                    {% else %}
+                    <button class="btn btn-outline">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                            </svg>
+                        </span>
+                        {% trans "Report" %}
+                    </button>
+                    {% endif %}
+
+                    {% url 'portfolio:talent_details' talent.public_id as talent_link %}
+                    <button class="btn btn-outline"
+                        onclick="showCopyLink('{{ request.scheme }}://{{ request.get_host }}{{ talent_link }}')">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                            </svg>
+
+                        </span>
+                        {% trans "Share Portfolio" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-5 items-start">
+        <ul class="list comic-panel">
+            <li class="list-row">
+                <div>
+                    <div class="font-bold">{% trans "About" %}</div>
+                    <div class="max-h-32 overflow-y-auto">
+                        {% if talent.about %}
+                            {{talent.about}}
+                        {% else %}
+                            Full-stack content creator with 5+ years of experience crafting viral video content for top YouTube and Instagram creators. Specialised in storytelling-driven edits, motion graphics, and brand-aligned thumbnails. 284+ verified videos across 7 platforms.
+                        {% endif %}
+                    </div>
+                </div>
+                {% if is_user %}
+                <button class="btn btn-square btn-sm btn-ghost ml-auto" onclick="form_model.showModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-[1.2em]">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                    </svg>
+                </button>
+                {% endif %}
+            </li>
+            <li class="list-row">
+                <div>
+                    {% get_social_accounts talent.user as accounts %}
+                    <div class="font-bold">{% trans "Confirmed info" %}</div>
+                    <br>
+                    <div class="flex flex-row items-center space-x-3">
+                        {% if accounts %}
+                        {% for provider, social_accounts in accounts.items %}
+                        <div class="w-10 h-10 flex items-center justify-center">
+                            <div class="flex flex-row items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                </svg>
+
+                                <img src="
+                                    {% if provider == 'google' %}
+                                        https://cdn.simpleicons.org/youtube
+                                    {% elif provider == 'github' %}
+                                        https://cdn.simpleicons.org/github
+                                    {% elif provider == 'facebook' %}
+                                        https://cdn.simpleicons.org/facebook
+                                    {% elif provider == 'twitter' %}
+                                        https://cdn.simpleicons.org/twitter
+                                    {% elif provider == 'discord' %}
+                                        https://cdn.simpleicons.org/discord
+                                    {% elif provider == 'twitch' %}
+                                        https://cdn.simpleicons.org/twitch
+                                    {% else %}
+                                        https://via.placeholder.com/32
+                                    {% endif %}
+                                    " class="w-5 h-5" alt="{{ provider.name }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif%}
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-row">
+                <div>
+                    <div class="font-bold">{% trans "Roles" %}</div>
+                    <div class="flex flex-row flex-wrap gap-2 mt-2">
+                        {% for role in talent.roles_display %}
+                        <div class="badge badge-outline" style="color: inherit; border-color: currentColor;">{{role}}</div>
+                        {% empty %}
+                        <div class="badge badge-outline" style="color: inherit; border-color: currentColor;">Video Editor</div>
+                        <div class="badge badge-outline" style="color: inherit; border-color: currentColor;">Thumbnail Designer</div>
+                        <div class="badge badge-outline" style="color: inherit; border-color: currentColor;">Script Writer</div>
+                        <div class="badge badge-outline" style="color: inherit; border-color: currentColor;">Motion Graphics</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+            <li class="list-row">
+                <div>
+                    <div class="font-bold">{% trans "Experience" %}</div>
+                    {% if talent.experiences.all %}
+                    {% for experience in talent.experiences.all %}
+                    <ul class="list w-full">
+                        <li class="list-row relative">
+                            {% if is_user %}
+                            <div class="absolute bottom-0 right-0 bg-base-100 flex flex-row space-y-2">
+                                <a href="{% url 'portfolio:update_experience' experience.pk %}"
+                                    class="btn btn-square btn-ghost btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-[1.2em]">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+
+                                </a>
+                                <form action="{% url 'portfolio:delete_experience' experience.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-square btn-ghost btn-sm" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-[1.2em]">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                            <div aria-label="status" class="status status-primary"></div>
+                            <div>
+                                <div class="font-bold">{{experience.title}}</div>
+                                <div class="text-xs uppercase font-semibold opacity-60">
+                                    {% if experience.frm %}
+                                    {{experience.frm}}
+                                    {% endif %}
+                                    {% if experience.to %}
+                                    {{experience.to}}
+                                    {% else %}
+                                    {% if experience.is_present %}
+                                    - {% trans "Persent" %}
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="list-col-wrap text-xs max-h-32 mb-4">
+                                {{experience.description}}
+                            </p>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                    {% else %}
+                    <!-- Dummy experience -->
+                    <ul class="list w-full mt-2">
+                        <li class="list-row relative">
+                            <div aria-label="status" class="status status-primary"></div>
+                            <div>
+                                <div class="font-bold">Senior Video Editor</div>
+                                <div class="text-xs uppercase font-semibold opacity-60">Jan 2022 – Present</div>
+                            </div>
+                            <p class="list-col-wrap text-xs max-h-32 mb-4">Led end-to-end video production for a 3.2M subscriber YouTube channel — scripting, editing, thumbnail strategy, and A/B testing.</p>
+                        </li>
+                        <li class="list-row relative">
+                            <div aria-label="status" class="status status-primary"></div>
+                            <div>
+                                <div class="font-bold">Motion Designer — Freelance</div>
+                                <div class="text-xs uppercase font-semibold opacity-60">Mar 2019 – Dec 2021</div>
+                            </div>
+                            <p class="list-col-wrap text-xs max-h-32 mb-4">Delivered 150+ branded animations and intro sequences for Instagram creators in the tech and lifestyle space.</p>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+                {% if is_user %}
+                <button class="btn btn-square btn-ghost ml-auto btn-sm" onclick="experience_model.showModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-[1.2em]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+                {% endif %}
+            </li>
+            <li class="list-row">
+                <div class="w-full">
+                    <div class="font-bold">{% trans "Languages" %}</div>
+                    <div class="mt-1">
+                        <ul class="list">
+                            {% for language in talent.languages.all %}
+                            <li class="list-row">
+                                <div class="w-full">
+                                    <div>{{language}}</div>
+                                </div>
+                                {% if is_user %}
+                                <form action="{% url 'portfolio:delete_language' language.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-square btn-ghost ml-auto btn-sm" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-[1.2em]">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </li>
+                            {% empty %}
+                            <li class="list-row"><div class="w-full"><div>English</div></div></li>
+                            <li class="list-row"><div class="w-full"><div>Hindi</div></div></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% if is_user %}
+                <button class="btn btn-square btn-ghost ml-auto btn-sm" onclick="language_model.showModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-[1.2em]">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+                {% endif %}
+            </li>
+
+        </ul>
+        <div class="card w-full col-span-full md:col-span-3">
+            <div class="card-body overflow-hidden">
+                <div class="card-title">{% trans 'My Portfolio'%}</div>
+
+                <!-- ── DUMMY PORTFOLIO (always visible as preview) ──────────────── -->
+                <div class="mb-4">
+                    <p class="text-xs font-semibold opacity-50 uppercase tracking-widest mb-3">Sample Work (Demo)</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                        <!-- Video 1 — Verified -->
+                        <div class="card indicator indicator-center w-full" style="border-color: var(--comic-green); box-shadow: 0 0 0 1.5px var(--comic-green, #22c55e);">
+                            <span class="indicator-item z-40 badge" style="background: var(--comic-green-light, #dcfce7);">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" style="color:var(--comic-green,#16a34a);"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>
+                                <span class="text-xs">Verified</span>
+                            </span>
+                            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Viral Product Launch Edit</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">Full cinematic cut for a 500k-view product reveal — color graded, motion tracked.</p>
+                                <p class="font-bold text-xs mt-1">Video Editor</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 2 — Verified -->
+                        <div class="card indicator indicator-center w-full" style="border-color: var(--comic-green); box-shadow: 0 0 0 1.5px var(--comic-green, #22c55e);">
+                            <span class="indicator-item z-40 badge" style="background: var(--comic-green-light, #dcfce7);">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" style="color:var(--comic-green,#16a34a);"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>
+                                <span class="text-xs">Verified</span>
+                            </span>
+                            <a href="https://www.youtube.com/watch?v=9bZkp7q19f0" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Creator Documentary Cut</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">Long-form storytelling edit for 2.1M subscriber documentary channel. Full colour and audio mix.</p>
+                                <p class="font-bold text-xs mt-1">Documentary Editor</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 3 — Not Verified -->
+                        <div class="card indicator indicator-center w-full">
+                            <a href="https://www.youtube.com/watch?v=JGwWNGJdvx8" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/JGwWNGJdvx8/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Brand Sponsorship Reel</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">Produced and edited a sponsored integration video that drove a 34% CTR lift for the brand partner.</p>
+                                <p class="font-bold text-xs mt-1">Brand Editor</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 4 — Verified -->
+                        <div class="card indicator indicator-center w-full" style="border-color: var(--comic-green); box-shadow: 0 0 0 1.5px var(--comic-green, #22c55e);">
+                            <span class="indicator-item z-40 badge" style="background: var(--comic-green-light, #dcfce7);">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" style="color:var(--comic-green,#16a34a);"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>
+                                <span class="text-xs">Verified</span>
+                            </span>
+                            <a href="https://www.youtube.com/watch?v=kJQP7kiw5Fk" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Music Video Edit</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">Beat-synced edit for 6.5M view music video — motion graphics, colour grading, and lyric overlays.</p>
+                                <p class="font-bold text-xs mt-1">Music Editor</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 5 — Verified -->
+                        <div class="card indicator indicator-center w-full" style="border-color: var(--comic-green); box-shadow: 0 0 0 1.5px var(--comic-green, #22c55e);">
+                            <span class="indicator-item z-40 badge" style="background: var(--comic-green-light, #dcfce7);">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" style="color:var(--comic-green,#16a34a);"><path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/></svg>
+                                <span class="text-xs">Verified</span>
+                            </span>
+                            <a href="https://www.youtube.com/watch?v=OPf0YbXqDm0" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/OPf0YbXqDm0/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Travel Vlog Series</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">12-part travel series for lifestyle creator with 1.8M subscribers — story arc, colour grading, narrative voiceover.</p>
+                                <p class="font-bold text-xs mt-1">Vlog Editor</p>
+                            </div>
+                        </div>
+
+                        <!-- Video 6 — Not Verified -->
+                        <div class="card indicator indicator-center w-full">
+                            <a href="https://www.youtube.com/watch?v=3tmd-ClpJxA" target="_blank">
+                                <figure class="w-full rounded-t-box overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/3tmd-ClpJxA/hqdefault.jpg" alt="YouTube Video" class="w-full object-cover" />
+                                </figure>
+                            </a>
+                            <div class="card-body py-3">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <img src="https://cdn.simpleicons.org/youtube" class="size-4" alt="YouTube" />
+                                </div>
+                                <h2 class="card-title text-sm">Tech Review Edit</h2>
+                                <p class="text-xs opacity-60 line-clamp-2">Edited a 12-minute tech deep-dive that reached 2.4M views. Kinetic text, B-roll blending, custom LUT.</p>
+                                <p class="font-bold text-xs mt-1">Tech Editor</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ── END DUMMY PORTFOLIO ──────────────────────────────────────── -->
+
+                {% if talent.videos.all %}
+                <div class="divider">Real Portfolio</div>
+                {% endif %}
+                <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 content-start gap-5">
+                    {% for video in talent.videos.all %}
+                    <div class="card indicator indicator-center w-full transition-all duration-300"
+                        {% if video.is_verified %}style="box-shadow: var(--comic-shadow-lg); border-color: var(--comic-green);"{% endif %}>
+                        {% if video.is_verified %}
+                        <span class="indicator-item z-40 badge flex flex-row" style="background: var(--comic-green-light);">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-6 z-50" style="color: var(--comic-green);">
+                                <path fill-rule="evenodd"
+                                    d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <span>{% trans "Verified"%}</span>
+                        </span>
+                        {% endif%}
+                        {% if video.platform == 'discord' %}
+                        <a href="{{video.link}}" target="_blank" referrerpolicy="no-referrer">
+                            <figure class="w-full h-full rounded-box overflow-hidden">
+                                <img src="{% static 'assests/discord-banner.webp' %}" alt="discord" />
+                            </figure>
+                        </a>
+                        {% else %}
+                        <a href="{{video.link}}" target="_blank" referrerpolicy="no-referrer">
+                            <div class="w-full h-full rounded-box overflow-hidden">
+                                <img src="{{video.get_thumb}}" />
+                            </div>
+                        </a>
+
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="flex flex-row justify-between">
+                                <div class="flex flex-row space-x-3">
+                                    <img src="
+                                {% if video.platform == 'youtube' %}
+                                    https://cdn.simpleicons.org/youtube
+                                {% elif video.platform == 'facebook' %}
+                                    https://cdn.simpleicons.org/facebook
+                                {% elif video.platform == 'twitter' %}
+                                    https://cdn.simpleicons.org/twitter
+                                {% elif video.platform == 'discord' %}
+                                    https://cdn.simpleicons.org/discord
+                                {% elif video.platform == 'twitch' %}
+                                    https://cdn.simpleicons.org/twitch
+                                {% else %}
+                                    https://via.placeholder.com/32
+                                {% endif %}
+                                " class="size-6" alt="{{ video.platform }}">
+                                </div>
+                            </div>
+                            <h2 class="card-title">{{video.get_title}}</h2>
+                            <p class="line-clamp-2">{{video.desc}}</p>
+                            <div class="flex flex-row items-center justify-between space-x-2">
+                                <p class="font-bold">{{video.get_first_role_display}}</p>
+                                {% if is_user %}
+                                <form method="post" action="{% url 'portfolio:delete_video' video.pk %}">
+                                    {% csrf_token %}
+                                    <button class="text-error btn" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+
+                                    </button>
+                                </form>
+                                {% url 'portfolio:magic_peek' video.pk as magic_link %}
+                                <button id="shareBtn" class="btn btn-small btn-primary btn-soft"
+                                    onclick="showCopyLink('{{ request.scheme }}://{{ request.get_host }}{{ magic_link }}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                    </svg>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    {% if not is_user %}
+                    <div class="py-10 mx-auto col-span-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-20 mx-auto my-2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                        </svg>
+
+                        <p class="text-center">{% trans "no videos to show" %}</p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% if not talent.videos.all %}
+                <p class="text-xs opacity-40 text-center mt-4">(Above cards are demo data — real portfolio items will appear here once added)</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% if not is_user %}
+    <dialog id="message_modal" class="modal modal-middle">
+        <div class="modal-box">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    onclick="closeModalAndCleanURL()">✕</button>
+            </form>
+            {% url 'message:message_create' talent.public_id as message_create %}
+            {% element form form=message_form method="post" action=message_create %}
+            {% slot body %}
+            {% csrf_token %}
+            {% element fields form=message_form %}{% endelement %}
+            {{ redirect_field }}
+            {% endslot %}
+            {% slot actions %}
+            {% element button type="submit" class="col-span-full btn btn-primary md:btn-lg" %}
+            {% trans "Send message" %}
+            {% endelement %}
+            {% endslot %}
+            {% endelement %}
+        </div>
+    </dialog>
+    {% endif %}
+
+
+    <dialog id="form_model" class="modal modal-middle">
+        <div class="modal-box relative">
+            <h2>{% trans "Basic Details" %}</h2>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <div>
+                {% url 'portfolio:portfolio_update' as portfolio_url %}
+                {% element form form=form method="post" action=portfolio_url%}
+                {% slot body %}
+                {% csrf_token %}
+                {% element fields form=form %}{% endelement %}
+                {% endslot %}
+                {% slot actions %}
+                {% element button type="submit" %}
+                {% trans "Save changes" %}
+                {% endelement %}
+                {% endslot %}
+                {% endelement %}
+            </div>
+    </dialog>
+
+    <dialog id="experience_model" class="modal modal-middle">
+        <div class="modal-box">
+            <h2>{% trans "Experience" %}</h2>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            {% if experience_form.instance.pk %}
+            {% url 'portfolio:update_experience' experience_form.instance.pk as form_url %}
+            {% else %}
+            {% url 'portfolio:create_experience' as form_url %}
+            {% endif %}
+            {% element form form=experience_form method="post" action=form_url%}
+            {% slot body %}
+            {% csrf_token %}
+            {% element fields form=experience_form %}{% endelement %}
+            {% endslot %}
+            {% slot actions %}
+            {% element button type="submit" %}
+            {% trans "Save" %}
+            {% endelement %}
+            {% endslot %}
+            {% endelement %}
+        </div>
+    </dialog>
+    <dialog id="language_model" class="modal modal-middle">
+        <div class="modal-box">
+            <h2>{% trans "Language" %}</h2>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            {% url 'portfolio:create_language' as form_language_url %}
+            {% element form form=language_form method="post" action=form_language_url%}
+            {% slot body %}
+            {% csrf_token %}
+            {% element fields form=language_form %}{% endelement %}
+            {% endslot %}
+            {% slot actions %}
+            {% element button type="submit" %}
+            {% trans "Save" %}
+            {% endelement %}
+            {% endslot %}
+            {% endelement %}
+        </div>
+    </dialog>
+    <dialog id="video_modal" class="modal modal-middle">
+        <div class="modal-box">
+            <h2>{% trans "Video" %}</h2>
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            {% url 'portfolio:create_video' as form_video_url %}
+            {% element form form=video_form method="post" action=form_video_url%}
+            {% slot body %}
+            {% csrf_token %}
+            {% element fields form=video_form %}{% endelement %}
+            {% endslot %}
+            {% slot actions %}
+            {% element button type="submit" %}
+            {% trans "Save" %}
+            {% endelement %}
+            {% endslot %}
+            {% endelement %}
+        </div>
+    </dialog>
+
+</main>
+
+
+{% endblock content %}
+
+{% block extra_body %}
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('message') === 'true') {
+        const modal = document.getElementById('message_modal');
+        console.log(modal)
+        modal.showModal();
+    }
+
+    function closeModalAndCleanURL() {
+        const modal = document.getElementById('message_modal');
+        modal.close();
+
+        const url = new URL(window.location);
+        url.searchParams.delete('message');
+        window.history.replaceState({}, '', url);
+    }
+</script>
+<script src="{% static 'javascript/sharelink.js' %}"></script>
+{% endblock extra_body %}

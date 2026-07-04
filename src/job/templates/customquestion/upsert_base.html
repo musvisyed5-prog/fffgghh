@@ -1,0 +1,33 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth static%}
+
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+{% endblock extra_head %}
+
+{% block content %}
+{% block extra_content %}
+{% endblock extra_content %}
+<main id="main">
+<form action="" method="post" id="form-builder-form" class="mt-4">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="text-error">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+    <div id="builder" class="bg-base-100"></div>
+    <textarea name="structure" id="id_structure" hidden></textarea>
+    {% block extra_form %}
+
+    {% endblock extra_form %}
+</form>
+</main>
+{% endblock content %}
+
+{% block extra_body %}
+<script src="{% static 'javascript/builder.js' %}"></script>
+{% endblock extra_body %}

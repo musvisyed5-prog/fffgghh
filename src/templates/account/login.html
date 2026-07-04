@@ -1,0 +1,56 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n allauth account static %}
+
+
+{% block head_title %}
+{% trans "Arclent Login | Access Your Hiring Dashboard and Job Portal Account" %}
+{% endblock head_title %}
+
+
+{% block body %}
+<main id="main" class="grid grid-cols-1 md:grid-cols-2 h-screen overflow-hidden">
+    <section class="p-10 flex flex-col space-y-10">
+        {% include 'ui/navigation/goback.html' %}
+
+        {% element h1 %} {% trans "Welcome Back!" %}{% endelement %}
+        {% element p %}
+        {% trans "Login to manage your jobs, applicants, company" %}
+        {% endelement p %}
+        {% url 'account_login' as login_url %}
+        {% element form form=form method="post" class="flex flex-col space-y-4 md:mr-20" action=login_url tags="entrance,login" %}
+        {% slot body %}
+        {% csrf_token %}
+        {% element fields form=form %}{% endelement %}
+        {{ redirect_field }}
+        {% endslot %}
+        {% slot actions %}
+        {% element button type="submit" tags="prominent,login" %}
+        {% trans "Log In" %}
+        {% endelement %}
+        {% endslot %}
+        {% endelement %}
+        <div class="mt-auto">
+            {% setvar link %}
+            <a href="{{ signup_url }}" class="text-primary transition-colors hover:underline px-2">
+                {% endsetvar %}
+                {% setvar end_link %}
+            </a>
+            {% endsetvar %}
+            {% element p %}
+            {% blocktranslate %}
+            Do not have a account? {{ link }}Sign up{{ end_link }}
+            {%endblocktranslate %}
+            {% endelement p %}
+        </div>
+    </section>
+    <section class="overflow-hidden hidden md:block" style="background: var(--comic-green-light); border-left: var(--comic-border);">
+        <div class="w-full h-[90%]">
+            <img src="{% static 'assests/ill/login/part1.svg' %}" alt="">
+        </div>
+        <p style="font-family: var(--font-header); font-weight: 900;" class="text-center">
+            {% trans "Arclent Brings Trusted Talent to Your Business" %}
+        </p>
+    </section>
+</main>
+
+{% endblock body %}

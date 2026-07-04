@@ -1,0 +1,96 @@
+{% load allauth %}
+{% if attrs.non_attrs_errors %}
+    <div class="alert alert-error mb-4">
+        {% for error in attrs.non_attrs_errors %}
+            <p class="text-white">{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="w-full flex flex-col space-y-2 my-3">
+    {% if attrs.errors %}
+        <div class="text-error text-sm mt-1">
+            {% for error in attrs.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if attrs.widget.input_type == "textarea" %}
+        <label class="label" for="{{ attrs.id_for_label }}">
+            {{ attrs.label }}
+        </label>
+
+        <textarea
+            class="textarea"
+            name="{{ attrs.name }}"
+            id="{{ attrs.id_for_label }}"
+            {% if attrs.required %}required{% endif %}
+            {% if attrs.readonly %}readonly{% endif %}
+            {% if attrs.widget.attrs.placeholder %}
+                placeholder="{{ attrs.attrs.widget.attrs.placeholder }}"
+            {% endif %}
+        >{{ attrs.value|default_if_none:"" }}</textarea>
+
+    {% elif attrs.widget.input_type == "file"  %}
+        <label class="label" for="{{ attrs.id_for_label }}">
+            {{ attrs.label }}
+        </label>
+        <input
+            type="{{ attrs.attrs.widget.input_type }}"
+            name="{{ attrs.name }}"
+            id="{{ attrs.id_for_label }}"
+            value="{{ attrs.value|default_if_none:'' }}"
+            {% if attrs.required %}required{% endif %}
+            {% if attrs.readonly %}readonly{% endif %}
+            {% if attrs.widget.attrs.placeholder %}
+                placeholder="{{ attrs.attrs.widget.attrs.placeholder }}"
+            {% endif %}
+            class="file-input file-input-neutral w-full md:file-input-lg"
+     
+        >
+    {% else %}
+        {% if attrs.widget.input_type != "checkbox" and attrs.widget.input_type != "radio" %}
+            <label class="label" for="{{ attrs.id_for_label }}">
+                {{ attrs.label }}
+            </label>
+        {% endif %}
+
+        <input
+            type="{{ attrs.attrs.widget.input_type }}"
+            name="{{ attrs.name }}"
+            id="{{ attrs.id_for_label }}"
+            value="{{ attrs.value|default_if_none:'' }}"
+            {% if attrs.required %}required{% endif %}
+            {% if attrs.readonly %}readonly{% endif %}
+            {% if attrs.widget.attrs.placeholder %}
+                placeholder="{{ attrs.attrs.widget.attrs.placeholder }}"
+            {% endif %}
+            class="input input-neutral md:input-lg w-full"
+     
+        >
+
+        {% if attrs.widget.input_type == "checkbox" or attrs.widget.input_type == "radio" %}
+            <label class="label" for="{{ attrs.id_for_label }}">
+                {{ attrs.label }}
+            </label>
+        {% endif %}
+    {% endif %}
+
+<div class="w-full text-start">
+
+    {% if attrs.help_text %}
+
+        {% if "href" in attrs.help_text %}
+            <p class="font-bold text-sm tracking-widest text-primary">
+                {{ attrs.help_text|safe }}
+            </p>
+        {% else %}
+            <small class="text-xs text-base-content/50 mt-1 w-full">
+                {{ attrs.help_text }}
+            </small>
+        {% endif %}
+
+    {% endif %}
+
+</div>
+</div>

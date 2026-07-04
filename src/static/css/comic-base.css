@@ -1,0 +1,512 @@
+/* ═══════════════════════════════════════════════════
+   HIREPEDIA — SITE-WIDE NEO-BRUTALIST COMIC DESIGN SYSTEM
+   Loaded on every page (see allauth/layouts/base.html).
+   Restyles shared chrome (nav/footer) and every DaisyUI
+   primitive (btn/card/badge/table/alert/modal/form inputs/
+   menu/dropdown/tabs) used across the app so the whole site
+   matches the landing page (static/css/landing.css).
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;900&display=swap');
+
+/* ── DESIGN TOKENS (mirrors landing.css, global scope) ─ */
+:root {
+  --comic-yellow: #fbbf24;
+  --comic-yellow-bright: #facc15;
+  --comic-green: #22c55e;
+  --comic-green-light: #d1fae5;
+  --comic-orange: #f97316;
+  --comic-orange-light: #ffedd5;
+  --comic-red: #ef4444;
+  --comic-red-light: #fecaca;
+  --comic-blue: #0ea5e9;
+  --comic-blue-light: #e0f2fe;
+  --comic-cream: #faf7f2;
+  --comic-white: #ffffff;
+  --comic-dark: #000000;
+
+  --font-landing: 'Lexend', sans-serif;
+  --font-header: 'Space Grotesk', sans-serif;
+
+  --comic-border: 3px solid #000000;
+  --comic-border-thin: 2px solid #000000;
+  --comic-shadow-sm: 4px 4px 0px #000000;
+  --comic-shadow: 7px 7px 0px #000000;
+  --comic-shadow-lg: 10px 10px 0px #000000;
+
+  --radius-comic: 12px;
+  --radius-comic-sm: 8px;
+  --radius-pill: 9999px;
+}
+
+/* ── GLOBAL BASE ────────────────────────────────────── */
+html, body {
+  background-color: var(--comic-cream);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 15%, transparent 16%);
+  background-size: 20px 20px;
+  color: var(--comic-dark);
+  font-family: var(--font-landing) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--comic-dark);
+}
+
+/* ── REUSABLE TYPOGRAPHY HELPERS ────────────────────── */
+.section-label, .section-eyebrow {
+  font-family: var(--font-header);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--comic-orange);
+  margin-bottom: 1rem;
+}
+
+.section-title, .section-headline {
+  font-family: var(--font-header);
+  font-weight: 900;
+  color: var(--comic-dark);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.section-desc {
+  font-family: var(--font-landing);
+  color: #2b2b2b;
+  line-height: 1.6;
+}
+
+/* ── NAV / FOOTER (classes already present in templates,
+   previously only styled on the home page) ──────────── */
+.nav-glass {
+  background: var(--comic-white) !important;
+  border-bottom: var(--comic-border) !important;
+  box-shadow: 0 4px 0 #000000 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.nav-glass .nav-link {
+  color: var(--comic-dark) !important;
+  font-family: var(--font-header);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-comic-sm);
+  border: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.nav-glass .nav-link:hover {
+  color: var(--comic-dark) !important;
+  background: var(--comic-yellow);
+  border: var(--comic-border-thin);
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.nav-glass .nav-link::after { display: none !important; }
+
+.footer-glass {
+  background: var(--comic-white) !important;
+  border-top: var(--comic-border) !important;
+  box-shadow: 0 -4px 0 #000000 !important;
+  font-family: var(--font-landing) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.footer-glass h5 {
+  font-family: var(--font-header);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--comic-dark);
+}
+
+.footer-glass a {
+  font-family: var(--font-header);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--comic-dark);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.footer-glass a:hover {
+  color: var(--comic-orange);
+  text-decoration: underline;
+}
+
+.footer-glass p {
+  font-family: var(--font-landing);
+  color: var(--comic-dark);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.footer-social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-comic-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--comic-white);
+  border: var(--comic-border-thin);
+  color: var(--comic-dark);
+  transition: all 0.15s ease;
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.footer-social-btn:hover {
+  color: var(--comic-dark);
+  background: var(--comic-yellow);
+  box-shadow: 4px 4px 0 #000000;
+  transform: translate(-1px, -1px);
+}
+
+/* ── GENERIC GLASS/CARD SURFACES ────────────────────── */
+.glass, .glass-strong, .glass-subtle {
+  background: var(--comic-white);
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow);
+  border-radius: var(--radius-comic);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.glass-card, .glass-card-green {
+  background: var(--comic-white);
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow);
+  border-radius: var(--radius-comic);
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+}
+
+.glass-card-green { background: var(--comic-green-light); }
+
+.glass-card:hover, .glass-card-green:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-lg);
+}
+
+.glass-divider { height: 2px; background: #000000; border: none; margin: 0; }
+
+.btn-glass-green {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: var(--radius-comic-sm);
+  background: var(--comic-green);
+  color: #ffffff !important;
+  font-family: var(--font-header);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.1s ease;
+}
+
+.btn-glass-green:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+  color: #ffffff !important;
+}
+
+.btn-glass-green:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 #000000; }
+
+.btn-glass-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: var(--radius-comic-sm);
+  background: var(--comic-white);
+  color: var(--comic-dark);
+  font-family: var(--font-header);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.1s ease;
+}
+
+.btn-glass-outline:hover {
+  background: var(--comic-cream);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+  color: var(--comic-dark);
+}
+
+.btn-glass-outline:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000000; }
+
+/* ── DAISYUI: BUTTONS ────────────────────────────────── */
+.btn {
+  border-radius: var(--radius-comic-sm) !important;
+  border: var(--comic-border) !important;
+  box-shadow: var(--comic-shadow-sm) !important;
+  font-family: var(--font-header) !important;
+  font-weight: 700 !important;
+  text-transform: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000000 !important; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 0 0 0 #000000 !important; }
+.btn:disabled, .btn[disabled] { opacity: 0.5; transform: none; box-shadow: var(--comic-shadow-sm) !important; }
+
+.btn-primary { background: var(--comic-green) !important; color: #fff !important; border-color: #000 !important; }
+.btn-secondary { background: var(--comic-orange) !important; color: #fff !important; border-color: #000 !important; }
+.btn-accent, .btn-neutral { background: var(--comic-dark) !important; color: #fff !important; border-color: #000 !important; }
+.btn-error { background: var(--comic-red) !important; color: #fff !important; border-color: #000 !important; }
+.btn-warning { background: var(--comic-yellow) !important; color: #000 !important; border-color: #000 !important; }
+.btn-success { background: var(--comic-green) !important; color: #fff !important; border-color: #000 !important; }
+.btn-info { background: var(--comic-blue) !important; color: #fff !important; border-color: #000 !important; }
+
+.btn-outline { background: var(--comic-white) !important; color: var(--comic-dark) !important; border-color: #000 !important; }
+.btn-outline:hover { background: var(--comic-cream) !important; }
+
+.btn-ghost, .btn-link {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  box-shadow: none !important;
+}
+.btn-ghost:hover { background: var(--comic-yellow) !important; border-color: #000 !important; box-shadow: 3px 3px 0 #000 !important; }
+.btn-link { text-decoration: underline; }
+.btn-link:hover { transform: none; box-shadow: none !important; }
+
+.btn-circle { border-radius: 50% !important; }
+.btn-circle:hover { transform: translate(-2px, -2px) rotate(-4deg); }
+
+.btn-xs { box-shadow: 2px 2px 0 #000 !important; }
+.btn-xs:hover { box-shadow: 4px 4px 0 #000 !important; }
+.btn-sm { box-shadow: 3px 3px 0 #000 !important; }
+
+/* ── DAISYUI: CARDS ──────────────────────────────────── */
+.card {
+  background: var(--comic-white);
+  border: var(--comic-border) !important;
+  box-shadow: var(--comic-shadow) !important;
+  border-radius: var(--radius-comic) !important;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease !important;
+}
+
+a.card:hover, .card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-lg) !important;
+}
+
+.card-title { font-family: var(--font-header); font-weight: 900; }
+
+/* ── DAISYUI: BADGES / TOOLTIPS ──────────────────────── */
+.badge {
+  border: var(--comic-border-thin) !important;
+  border-radius: var(--radius-comic-sm) !important;
+  box-shadow: 2px 2px 0 #000000 !important;
+  font-family: var(--font-header) !important;
+  font-weight: 700 !important;
+  background: var(--comic-white);
+  color: var(--comic-dark);
+}
+
+.badge-neutral { background: var(--comic-dark) !important; color: #fff !important; }
+.badge-outline { background: var(--comic-white) !important; }
+.badge-primary { background: var(--comic-green) !important; color: #fff !important; }
+.badge-secondary { background: var(--comic-orange) !important; color: #fff !important; }
+.badge-error { background: var(--comic-red) !important; color: #fff !important; }
+.badge-dash { background: var(--comic-white) !important; border-style: dashed !important; }
+
+.tooltip-content, [data-tip]:before, .tooltip:before {
+  background: var(--comic-dark) !important;
+  border: var(--comic-border-thin) !important;
+  border-radius: var(--radius-comic-sm) !important;
+  box-shadow: 3px 3px 0 #000000 !important;
+}
+.tooltip-content { color: var(--comic-white); }
+.tooltip-content .text-gray-400 { color: #bbb !important; }
+
+/* ── DAISYUI: AVATAR ─────────────────────────────────── */
+.avatar > div { box-shadow: none !important; border: var(--comic-border-thin) !important; }
+.avatar img { box-shadow: none !important; }
+
+/* ── DAISYUI: TABLE ──────────────────────────────────── */
+.table {
+  border: var(--comic-border) !important;
+  border-radius: var(--radius-comic) !important;
+  overflow: hidden;
+}
+.table thead tr {
+  background: var(--comic-dark) !important;
+  color: #fff !important;
+}
+.table thead th {
+  font-family: var(--font-header) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+.table tbody tr { border-bottom: 2px solid #000 !important; }
+.table tbody tr:last-child { border-bottom: none !important; }
+.table tbody tr:hover { background: var(--comic-cream) !important; }
+
+/* ── DAISYUI: ALERT / TOAST ──────────────────────────── */
+.alert {
+  border: var(--comic-border) !important;
+  border-radius: var(--radius-comic-sm) !important;
+  box-shadow: var(--comic-shadow-sm) !important;
+  font-family: var(--font-landing) !important;
+  font-weight: 600 !important;
+}
+.alert-success { background: var(--comic-green-light) !important; color: #065f46 !important; }
+.alert-error { background: var(--comic-red-light) !important; color: #7f1d1d !important; }
+.alert-warning { background: #fef9c3 !important; color: #713f12 !important; }
+.alert-info { background: var(--comic-blue-light) !important; color: #0c4a6e !important; }
+
+/* ── DAISYUI: MODAL ──────────────────────────────────── */
+.modal-box {
+  background: var(--comic-white) !important;
+  border: var(--comic-border) !important;
+  box-shadow: var(--comic-shadow-lg) !important;
+  border-radius: var(--radius-comic) !important;
+}
+.modal-backdrop { background: rgba(0, 0, 0, 0.55) !important; }
+
+/* ── DAISYUI: TABS ───────────────────────────────────── */
+.tabs-boxed, .tabs-box {
+  background: var(--comic-white) !important;
+  border: var(--comic-border) !important;
+  box-shadow: var(--comic-shadow-sm) !important;
+  border-radius: var(--radius-comic-sm) !important;
+}
+.tab {
+  font-family: var(--font-header) !important;
+  font-weight: 700 !important;
+  border-radius: var(--radius-comic-sm) !important;
+}
+.tab-active, .tab[aria-selected="true"] {
+  background: var(--comic-yellow) !important;
+  border: var(--comic-border-thin) !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+/* ── DAISYUI: MENU / DROPDOWN / DRAWER ───────────────── */
+.menu, .dropdown-content {
+  background: var(--comic-white) !important;
+  border: var(--comic-border) !important;
+  box-shadow: var(--comic-shadow) !important;
+  border-radius: var(--radius-comic-sm) !important;
+}
+
+.menu li > a, .menu li > button {
+  font-family: var(--font-header);
+  font-weight: 600;
+  border-radius: var(--radius-comic-sm) !important;
+}
+.menu li > a:hover, .menu li > button:hover {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-dark) !important;
+}
+
+.drawer-side .menu {
+  background: var(--comic-cream) !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border-right: var(--comic-border) !important;
+}
+
+/* ── DAISYUI: DIVIDER ────────────────────────────────── */
+.divider:before, .divider:after { background-color: #000 !important; opacity: 0.15; height: 2px !important; }
+
+/* ── FORM CONTROLS ───────────────────────────────────── */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.input,
+textarea,
+.textarea,
+select,
+.select,
+input[type="file"],
+.file-input {
+  background: var(--comic-white) !important;
+  border: var(--comic-border) !important;
+  border-radius: var(--radius-comic-sm) !important;
+  box-shadow: 3px 3px 0 #000000 !important;
+  font-family: var(--font-landing) !important;
+  transition: box-shadow 0.1s ease, transform 0.1s ease !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.input:focus,
+textarea:focus,
+.textarea:focus,
+select:focus,
+.select:focus,
+input[type="file"]:focus,
+.file-input:focus {
+  outline: none !important;
+  box-shadow: var(--comic-shadow-sm) !important;
+  transform: translate(-2px, -2px);
+  border-color: #000 !important;
+}
+
+input[type="radio"], .radio {
+  border: var(--comic-border-thin) !important;
+  box-shadow: none !important;
+}
+input[type="radio"]:checked, .radio:checked { background-color: var(--comic-green) !important; }
+
+label {
+  font-family: var(--font-header) !important;
+  font-weight: 700 !important;
+  color: var(--comic-dark);
+}
+
+.errorlist {
+  font-family: var(--font-landing) !important;
+  color: #b91c1c !important;
+  font-weight: 700;
+}
+
+/* ── NEW UTILITY: GENERIC BORDERED PANEL ─────────────── */
+.comic-panel {
+  background: var(--comic-white);
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow);
+  border-radius: var(--radius-comic);
+  padding: 1.5rem;
+}
+
+/* ── NEW UTILITY: STAT BOXES (replaces bg-*-100 p-4 rounded-xl) ── */
+.comic-stat {
+  background: var(--comic-white);
+  border: var(--comic-border);
+  box-shadow: var(--comic-shadow-sm);
+  border-radius: var(--radius-comic-sm);
+  padding: 1rem 1.25rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.comic-stat:hover { transform: translate(-2px, -2px); box-shadow: var(--comic-shadow); }
+.comic-stat p { font-family: var(--font-header); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444; }
+.comic-stat h2, .comic-stat h3 { font-family: var(--font-header); font-weight: 900; font-size: 1.5rem; margin-top: 0.25rem; }
+
+.comic-stat-blue { background: #dbeafe; }
+.comic-stat-green { background: var(--comic-green-light); }
+.comic-stat-red { background: var(--comic-red-light); }
+.comic-stat-yellow { background: #fef9c3; }
+.comic-stat-gray { background: #f1f5f9; }

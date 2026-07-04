@@ -1,0 +1,466 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth static cache split_tag %}
+
+{% block head_title %}
+{% blocktrans with name=job.title|title %}{{ name }}{% endblocktrans %}
+{% endblock head_title %}
+
+{% block extra_head %}
+<style>
+/* ── JOB DETAIL PAGE ──────────────────────────────────── */
+.jd-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (min-width: 1024px) {
+    .jd-layout { grid-template-columns: 1fr 320px; }
+}
+
+/* Hero card */
+.jd-hero {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 16px;
+    box-shadow: 7px 7px 0 #000;
+    overflow: hidden;
+}
+.jd-hero-top {
+    background: #000;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+}
+.jd-hero-top::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.06) 15%, transparent 16%);
+    background-size: 18px 18px;
+}
+.jd-hero-top-content { position: relative; z-index: 1; }
+
+.jd-logo {
+    width: 64px; height: 64px;
+    border-radius: 12px;
+    border: 3px solid rgba(255,255,255,0.3);
+    overflow: hidden; flex-shrink: 0;
+    background: #1a1a1a;
+}
+.jd-logo img { width: 100%; height: 100%; object-fit: cover; }
+.jd-company { color: rgba(255,255,255,0.55); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+.jd-title { color: #fff; font-size: clamp(1.4rem, 3vw, 2rem); font-family: 'Space Grotesk', sans-serif; font-weight: 900; line-height: 1.2; margin-top: 4px; }
+
+.jd-platform-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px; padding: 4px 12px;
+    color: rgba(255,255,255,0.8); font-size: 0.75rem; font-weight: 700;
+}
+.jd-platform-badge img { width: 16px; height: 16px; filter: brightness(10); }
+
+.jd-deadline {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fbbf24; color: #000;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 8px; padding: 4px 12px;
+    font-size: 0.75rem; font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Meta strip */
+.jd-meta-strip {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 2px solid #000;
+    background: #faf7f2;
+}
+.jd-meta-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 12px; border-radius: 8px;
+    border: 2px solid #000; font-weight: 700;
+    font-size: 0.78rem; box-shadow: 2px 2px 0 #000;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.jd-chip-green  { background: #d1fae5; }
+.jd-chip-orange { background: #ffedd5; }
+.jd-chip-blue   { background: #e0f2fe; }
+.jd-chip-yellow { background: #fef9c3; }
+.jd-chip-cream  { background: #fff; }
+
+/* Content sections */
+.jd-section {
+    background: #fff; border: 3px solid #000;
+    border-radius: 16px; box-shadow: 7px 7px 0 #000;
+    overflow: hidden;
+}
+.jd-section-header {
+    background: #000; padding: 0.9rem 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+}
+.jd-section-header h3 { color: #fff; font-size: 1rem; margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 900; }
+.jd-section-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+}
+.jd-section-body { padding: 1.5rem; }
+.jd-prose { font-size: 0.9rem; line-height: 1.75; color: #1a1a1a; white-space: pre-line; }
+
+/* Skill tags */
+.jd-tag {
+    display: inline-block; padding: 4px 12px;
+    border: 2px solid #000; border-radius: 8px;
+    font-size: 0.78rem; font-weight: 700;
+    background: #000; color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+/* Sticky sidebar */
+.jd-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.jd-apply-card {
+    background: #000; border: 3px solid #000;
+    border-radius: 16px; box-shadow: 7px 7px 0 #fbbf24;
+    padding: 1.5rem;
+    position: sticky; top: 1.5rem;
+}
+.jd-apply-card h3 { color: #fff; font-size: 1.25rem; font-family: 'Space Grotesk', sans-serif; font-weight: 900; margin-bottom: 0.5rem; }
+.jd-apply-card p { color: rgba(255,255,255,0.6); font-size: 0.82rem; margin-bottom: 1.25rem; }
+
+.jd-apply-btn {
+    display: block; width: 100%; text-align: center;
+    padding: 0.85rem; border-radius: 10px;
+    background: #22c55e; color: #fff !important;
+    border: 3px solid #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900; font-size: 1.05rem;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 rgba(255,255,255,0.4);
+    transition: all 0.1s ease;
+}
+.jd-apply-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 rgba(255,255,255,0.4); color: #fff !important; }
+.jd-apply-btn:active { transform: translate(2px, 2px); }
+.jd-apply-btn-disabled {
+    display: block; width: 100%; text-align: center;
+    padding: 0.85rem; border-radius: 10px;
+    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4) !important;
+    border: 2px solid rgba(255,255,255,0.15);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 1rem;
+}
+.jd-applied-notice {
+    background: rgba(34,197,94,0.15); border: 2px solid rgba(34,197,94,0.4);
+    border-radius: 10px; padding: 1rem; text-align: center; color: #86efac;
+    font-weight: 700; font-size: 0.85rem;
+}
+
+/* Company / Recruiter card */
+.jd-info-card {
+    background: #fff; border: 3px solid #000;
+    border-radius: 16px; box-shadow: 7px 7px 0 #000;
+    overflow: hidden;
+}
+.jd-info-card-header {
+    background: #faf7f2; padding: 0.85rem 1.25rem;
+    border-bottom: 2px solid #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900; font-size: 0.78rem;
+    text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6;
+}
+.jd-info-card-body { padding: 1.25rem; }
+
+.jd-avatar-row { display: flex; align-items: center; gap: 12px; }
+.jd-avatar {
+    width: 48px; height: 48px; border-radius: 10px;
+    border: 2px solid #000; overflow: hidden; flex-shrink: 0;
+    background: #f5f5f5;
+}
+.jd-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.jd-avatar-name { font-weight: 900; font-size: 0.95rem; font-family: 'Space Grotesk', sans-serif; }
+.jd-avatar-sub  { font-size: 0.78rem; opacity: 0.55; }
+
+/* Recruiter owner actions */
+.jd-owner-actions {
+    background: #fef9c3; border: 3px solid #000;
+    border-radius: 16px; box-shadow: 7px 7px 0 #000;
+    padding: 1.25rem;
+}
+.jd-owner-actions h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; opacity: 0.6; }
+.jd-owner-btn {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 0.6rem 1rem;
+    border-radius: 8px; border: 2px solid #000;
+    background: #fff; font-weight: 700; font-size: 0.85rem;
+    font-family: 'Space Grotesk', sans-serif;
+    text-decoration: none; color: #000 !important;
+    box-shadow: 3px 3px 0 #000;
+    transition: all 0.1s ease; margin-bottom: 8px;
+}
+.jd-owner-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #000; }
+.jd-owner-btn-danger { background: #fecaca; }
+
+/* Back link */
+.jd-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #000; font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; padding: 6px 14px;
+    border: 2px solid #000; border-radius: 8px;
+    background: #fff; box-shadow: 3px 3px 0 #000;
+    transition: all 0.1s ease; margin-bottom: 1.25rem;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.jd-back:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #000; }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<main id="main">
+
+    <!-- Back button -->
+    <a href="{% url 'job:job_list' %}" class="jd-back">
+        ← Back to Jobs
+    </a>
+
+    <div class="jd-layout">
+        <!-- ═══════════ LEFT COLUMN ═══════════ -->
+        <div style="display:flex; flex-direction:column; gap:1.5rem;">
+
+            <!-- ── HERO CARD ───────────────────────────── -->
+            <div class="jd-hero">
+                <!-- Dark header -->
+                <div class="jd-hero-top">
+                    <div class="jd-hero-top-content">
+                        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+                            <div style="display:flex; align-items:center; gap:1rem;">
+                                <div class="jd-logo">
+                                    {% if job.company %}
+                                    <img src="{{ job.company.logo_url }}" alt="{{ job.company.name }}"
+                                         onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.company.name|urlencode }}&backgroundColor=fbbf24&textColor=000000'" />
+                                    {% else %}
+                                    <img src="{{ job.recruter.profile_image }}" alt="{{ job.recruter.first_name }}"
+                                         onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.title|urlencode }}&backgroundColor=22c55e&textColor=000000'" />
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="jd-company">
+                                        {% if job.company %}{{ job.company.name }}{% else %}{{ job.recruter.first_name|title }} {{ job.recruter.last_name|title }}{% endif %}
+                                    </div>
+                                    <h1 class="jd-title">{{ job.title }}</h1>
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                                <!-- Platform badge -->
+                                <div class="jd-platform-badge">
+                                    <img src="
+                                        {% if job.platform == 'youtube' %}https://cdn.simpleicons.org/youtube/ff0000
+                                        {% elif job.platform == 'instagram' %}https://cdn.simpleicons.org/instagram/e1306c
+                                        {% elif job.platform == 'facebook' %}https://cdn.simpleicons.org/facebook
+                                        {% elif job.platform == 'twitter' or job.platform == 'x' %}https://cdn.simpleicons.org/x
+                                        {% elif job.platform == 'discord' %}https://cdn.simpleicons.org/discord
+                                        {% elif job.platform == 'twitch' %}https://cdn.simpleicons.org/twitch
+                                        {% elif job.platform == 'tiktok' %}https://cdn.simpleicons.org/tiktok
+                                        {% else %}https://cdn.simpleicons.org/rss
+                                        {% endif %}" alt="{{ job.platform }}" />
+                                    {{ job.platform|title }}
+                                </div>
+                                {% if job.days_left > 0 %}
+                                <div class="jd-deadline">🕐 {{ job.days_left }} day{{ job.days_left|pluralize }} left</div>
+                                {% elif not job.is_open %}
+                                <div style="display:inline-flex; align-items:center; gap:6px; background:#fecaca; color:#7f1d1d; border:2px solid rgba(255,255,255,0.3); border-radius:8px; padding:4px 12px; font-size:0.75rem; font-weight:900;">
+                                    🔒 Closed
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Posted time -->
+                        <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; margin-top:1rem;">Posted {{ job.date_created|timesince }} ago</p>
+                    </div>
+                </div>
+
+                <!-- Meta chips strip -->
+                <div class="jd-meta-strip">
+                    <span class="jd-meta-chip {% if job.type == 'FT' %}jd-chip-green{% elif job.type == 'PT' %}jd-chip-orange{% else %}jd-chip-blue{% endif %}">
+                        {% if job.type == 'FT' %}⚡{% elif job.type == 'PT' %}🕐{% else %}📋{% endif %}
+                        {{ job.get_type_display }}
+                    </span>
+                    <span class="jd-meta-chip jd-chip-cream">
+                        🎯
+                        {% if job.exp_min == 0 and job.exp_max is None %}Freshers welcome
+                        {% elif job.exp_max %}{{ job.exp_min|floatformat:0 }}–{{ job.exp_max|floatformat:0 }} years exp
+                        {% else %}{{ job.exp_min|floatformat:0 }}+ years exp{% endif %}
+                    </span>
+                    <span class="jd-meta-chip jd-chip-yellow">
+                        💰
+                        {% if job.salary_min and job.salary_max %}₹{{ job.salary_min|floatformat:0 }} – ₹{{ job.salary_max|floatformat:0 }}
+                        {% else %}Salary not disclosed{% endif %}
+                    </span>
+                    <span class="jd-meta-chip jd-chip-cream">📍 {{ job.location }}</span>
+                </div>
+
+                <!-- Skill tags -->
+                {% if job.tags %}
+                <div style="padding:1rem 1.75rem; border-bottom:2px solid #000; display:flex; flex-wrap:wrap; gap:6px;">
+                    {% for tag in job.tags|split:"," %}
+                    <span class="jd-tag">{{ tag|title }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Mobile apply CTA -->
+                <div style="padding:1.25rem 1.75rem; background:#faf7f2; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;" class="lg:hidden">
+                    <p style="font-size:0.82rem; opacity:0.6; margin:0;">Ready to apply?</p>
+                    {% if not request.user.is_authenticated %}
+                    <a href="{% url 'account_login' %}" class="jd-apply-btn" style="width:auto; padding:0.6rem 1.5rem;">Login to Apply</a>
+                    {% elif application is not None %}
+                    <div class="jd-applied-notice" style="flex:1;">✅ You applied on {% element time time=application.date_created %}{% endelement %}</div>
+                    {% elif job.is_open and request.user != job.recruter %}
+                    <a href="{% url 'job:jobapplicant_create' job.pk %}" class="jd-apply-btn" style="width:auto; padding:0.6rem 1.5rem;">Apply Now →</a>
+                    {% elif not job.is_open %}
+                    <span class="jd-apply-btn-disabled" style="width:auto;">Applications Closed</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ── JOB DESCRIPTION ─────────────────────── -->
+            <div class="jd-section">
+                <div class="jd-section-header">
+                    <div class="jd-section-icon">📋</div>
+                    <h3>Job Description</h3>
+                </div>
+                <div class="jd-section-body">
+                    <div class="jd-prose">{{ job.desc }}</div>
+                </div>
+            </div>
+
+            <!-- ── SKILLS & REQUIREMENTS ───────────────── -->
+            <div class="jd-section">
+                <div class="jd-section-header">
+                    <div class="jd-section-icon">✅</div>
+                    <h3>Skills &amp; Requirements</h3>
+                </div>
+                <div class="jd-section-body">
+                    <div class="jd-prose">{{ job.requirements }}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════ RIGHT SIDEBAR ═══════════ -->
+        <div class="jd-sidebar">
+
+            <!-- Apply Card -->
+            <div class="jd-apply-card">
+                {% if not request.user.is_authenticated %}
+                    <h3>Ready to Apply?</h3>
+                    <p>Log in to submit your application for this role.</p>
+                    <a href="{% url 'account_login' %}" class="jd-apply-btn">Login to Apply →</a>
+
+                {% elif application is not None %}
+                    <h3>Application Sent!</h3>
+                    <div class="jd-applied-notice">
+                        ✅ You applied on
+                        {% element time time=application.date_created %}{% endelement %}
+                    </div>
+                    <a href="{% url 'job:owned_applications' %}#{{ application.pk }}"
+                       style="display:block; margin-top:10px; text-align:center; color:rgba(255,255,255,0.6); font-size:0.8rem; text-decoration:underline;">
+                        View your application →
+                    </a>
+
+                {% elif job.is_open and request.user != job.recruter %}
+                    <h3>Apply for this Job</h3>
+                    <p>Take the next step in your creator career.</p>
+                    <a href="{% url 'job:jobapplicant_create' job.pk %}" class="jd-apply-btn">Apply Now →</a>
+
+                {% elif not job.is_open %}
+                    <h3>Applications Closed</h3>
+                    <p>This job is no longer accepting applications.</p>
+                    <span class="jd-apply-btn-disabled">Closed</span>
+
+                {% elif request.user == job.recruter %}
+                    <h3>Your Listing</h3>
+                    <p>You posted this job. Manage it from the options below.</p>
+                {% endif %}
+            </div>
+
+            <!-- Company Info -->
+            {% if job.company %}
+            <div class="jd-info-card">
+                <div class="jd-info-card-header">Company</div>
+                <div class="jd-info-card-body">
+                    <a href="{% url 'company:company_detail' job.company.pk %}" style="text-decoration:none; color:inherit;">
+                        <div class="jd-avatar-row" style="margin-bottom:0.75rem;">
+                            <div class="jd-avatar">
+                                <img src="{{ job.company.logo_url }}" alt="{{ job.company.name }}"
+                                     onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.company.name|urlencode }}&backgroundColor=fbbf24&textColor=000000'" />
+                            </div>
+                            <div>
+                                <div class="jd-avatar-name">{{ job.company.name }}</div>
+                                <div class="jd-avatar-sub">{{ job.company.get_industry_display }}</div>
+                            </div>
+                        </div>
+                        <span style="font-size:0.78rem; font-weight:700; color:#22c55e; text-decoration:underline;">View all jobs →</span>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Recruiter Info -->
+            <div class="jd-info-card">
+                <div class="jd-info-card-header">Posted by</div>
+                <div class="jd-info-card-body">
+                    <div class="jd-avatar-row">
+                        <div class="jd-avatar">
+                            <img src="{{ job.recruter.profile_image }}" alt="{{ job.recruter.first_name }}"
+                                 onerror="this.src='https://api.dicebear.com/7.x/personas/svg?seed={{ job.recruter.first_name }}{{ job.recruter.last_name }}'" />
+                        </div>
+                        <div>
+                            <div class="jd-avatar-name">{{ job.recruter.first_name|title }} {{ job.recruter.last_name|title }}</div>
+                            <div class="jd-avatar-sub">Recruiter</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Owner Actions (only shown to job poster) -->
+            {% if request.user == job.recruter %}
+            <div class="jd-owner-actions">
+                <h4>Manage Listing</h4>
+                <a href="{% url 'job:job_update' job.pk %}" class="jd-owner-btn">
+                    ✏️ Edit Job
+                </a>
+                <a href="{% url 'job:jobapplicant_list' job.id %}" class="jd-owner-btn">
+                    👥 View Applicants
+                </a>
+                <a href="{% url 'job:custom_question_list' job.id %}" class="jd-owner-btn">
+                    ❓ Screening Questions
+                </a>
+                {% if job.is_active and job.is_open %}
+                <button class="jd-owner-btn jd-owner-btn-danger" onclick="delist_modal.showModal()" style="border:none; cursor:pointer; width:100%; text-align:left;">
+                    🔒 Close Job
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</main>
+
+<!-- Close Job Modal -->
+<dialog id="delist_modal" class="modal">
+    <div class="modal-box" style="border:3px solid #000; border-radius:16px; box-shadow:7px 7px 0 #000;">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">⚠️ {% trans "Close this job?" %}</h3>
+        <p class="text-sm opacity-60 mt-1 mb-4">This will stop accepting new applications. This action cannot be undone.</p>
+        {% url 'job:job_delete' job.pk as job_delist_url %}
+        {% element delete_form title="Close job for applicants" url=job_delist_url name=job.title %}{% endelement %}
+    </div>
+</dialog>
+
+{% endblock content %}

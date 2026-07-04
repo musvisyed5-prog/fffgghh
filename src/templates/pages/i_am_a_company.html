@@ -1,0 +1,76 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n %}
+
+
+{% block head_title %}
+{% trans "Company Portal" %}
+{% endblock head_title %}
+
+{% block body %}
+
+<main class="grow flex flex-col items-center justify-center py-10 px-4" id="main">
+    <div class="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent pointer-events-none -z-10"></div>
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900  mb-4 tracking-tight">
+            {% trans "Company Portal" %}
+        </h1>
+        <ul class="space-y-4 my-10 grow">
+            <li class="flex items-start space-x-3 text-slate-600">
+                <span class=" text-primary text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+                </span>
+                <span class="font-medium">{% trans "Post jobs for your company" %}</span>
+            </li>
+            <li class="flex items-start space-x-3 text-slate-600">
+                <span class=" text-primary text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+                </span>
+                <span class="font-medium">{% trans "Manage applicants" %}</span>
+            </li>
+            <li class="flex items-start space-x-3 text-slate-600">
+                <span class=" text-primary text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+                </span>
+                <span class="font-medium">{% trans "Schedule interviews" %}</span>
+            </li>
+            <li class="flex items-start space-x-3 text-slate-600">
+                <span class=" text-primary text-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+                </span>
+                <span class="font-medium">{% trans "Company profile management" %}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="{% url 'account_login' %}{% if request.GET.next%}?next={{ request.GET.next }}{%endif%}"
+            class="btn btn-primary btn-lg w-full sm:w-auto">
+            {% trans "I already have a account" %}
+        </a>
+        <a href="{% url 'account_signup' %}{% if request.GET.next%}?next={{ request.GET.next }}{%endif%}"
+            class="btn btn-neutral btn-lg w-full sm:w-auto">
+            {% trans "Register company" %}
+        </a>
+    </div>
+</main>
+
+{% endblock %}

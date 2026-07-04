@@ -1,0 +1,235 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+{% load static allauth %}
+
+{% block head_title %}{% trans "Apply — " %}{{ job.title }}{% endblock head_title %}
+
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+<style>
+/* ── APPLY PAGE ───────────────────────────────────────── */
+.ap-layout {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Progress steps */
+.ap-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 0.5rem;
+}
+.ap-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.ap-step-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 3px solid #000; background: #000; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 900; flex-shrink: 0;
+}
+.ap-step-dot.active { background: #22c55e; border-color: #000; }
+.ap-step-line { flex: 1; height: 3px; background: #000; min-width: 24px; }
+
+/* Job summary strip */
+.ap-job-strip {
+    background: #000;
+    border: 3px solid #000;
+    border-radius: 16px;
+    box-shadow: 7px 7px 0 #fbbf24;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.ap-job-logo {
+    width: 52px; height: 52px; border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    overflow: hidden; flex-shrink: 0;
+    background: #1a1a1a;
+}
+.ap-job-logo img { width: 100%; height: 100%; object-fit: cover; }
+.ap-job-title { color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1.1rem; }
+.ap-job-company { color: rgba(255,255,255,0.5); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.ap-job-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.ap-job-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 10px; border-radius: 6px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.72rem; font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Instructions card */
+.ap-info-card {
+    background: #fef9c3;
+    border: 3px solid #000;
+    border-radius: 14px;
+    box-shadow: 5px 5px 0 #000;
+    padding: 1.25rem;
+}
+.ap-info-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900; font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+.ap-info-list { list-style: none; padding: 0; margin: 0; }
+.ap-info-list li {
+    font-size: 0.82rem; padding: 4px 0;
+    display: flex; align-items: flex-start; gap: 8px; color: #1a1a1a;
+}
+
+/* Form card */
+.ap-form-card {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 16px;
+    box-shadow: 7px 7px 0 #000;
+    overflow: hidden;
+}
+.ap-form-header {
+    background: #000; padding: 1rem 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+}
+.ap-form-header h2 { color: #fff; font-size: 1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 900; margin: 0; }
+.ap-form-body { padding: 1.5rem; }
+#application-form { margin-bottom: 1rem; }
+
+.ap-submit-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.85rem 2rem; border-radius: 10px;
+    background: #22c55e; color: #fff !important;
+    border: 3px solid #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900; font-size: 1rem;
+    box-shadow: 4px 4px 0 #000;
+    cursor: pointer; transition: all 0.1s ease;
+    width: 100%;
+    justify-content: center;
+}
+.ap-submit-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000; }
+.ap-submit-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
+
+/* Back link */
+.ap-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #000; font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; padding: 6px 14px;
+    border: 2px solid #000; border-radius: 8px;
+    background: #fff; box-shadow: 3px 3px 0 #000;
+    transition: all 0.1s ease;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.ap-back:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #000; }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<main id="main">
+<div class="ap-layout">
+
+    <!-- Back link -->
+    <a href="{% url 'job:job_detail' job.pk %}" class="ap-back" style="align-self:flex-start;">← Back to Job</a>
+
+    <!-- Progress steps -->
+    <div class="ap-steps">
+        <div class="ap-step">
+            <div class="ap-step-dot active">1</div>
+            <span>Review Job</span>
+        </div>
+        <div class="ap-step-line"></div>
+        <div class="ap-step">
+            <div class="ap-step-dot active">2</div>
+            <span>Fill Application</span>
+        </div>
+        <div class="ap-step-line"></div>
+        <div class="ap-step">
+            <div class="ap-step-dot">3</div>
+            <span>Done!</span>
+        </div>
+    </div>
+
+    <!-- Job summary strip -->
+    <div class="ap-job-strip">
+        <div class="ap-job-logo">
+            {% if job.company %}
+            <img src="{{ job.company.logo_url }}" alt="{{ job.company.name }}"
+                 onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.company.name|urlencode }}&backgroundColor=fbbf24&textColor=000000'" />
+            {% else %}
+            <img src="{{ job.recruter.profile_image }}" alt="{{ job.recruter.first_name }}"
+                 onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.title|urlencode }}&backgroundColor=22c55e&textColor=000000'" />
+            {% endif %}
+        </div>
+        <div style="flex:1; min-width:0;">
+            <div class="ap-job-company">
+                {% if job.company %}{{ job.company.name }}{% else %}{{ job.recruter.first_name|title }} {{ job.recruter.last_name|title }}{% endif %}
+            </div>
+            <div class="ap-job-title">{{ job.title }}</div>
+            <div class="ap-job-meta">
+                <span class="ap-job-chip">{{ job.get_type_display }}</span>
+                <span class="ap-job-chip">📍 {{ job.location }}</span>
+                {% if job.salary_min and job.salary_max %}
+                <span class="ap-job-chip">💰 ₹{{ job.salary_min|floatformat:0 }}–{{ job.salary_max|floatformat:0 }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="ap-info-card">
+        <h3>📌 Before you apply</h3>
+        <ul class="ap-info-list">
+            <li>✅ Make sure your Arclent profile is complete with your work samples.</li>
+            <li>✅ Answer all screening questions honestly — they are reviewed by the recruiter.</li>
+            <li>✅ Applications are final once submitted. Review carefully.</li>
+            <li>✅ You will be notified by email when the recruiter reviews your application.</li>
+        </ul>
+    </div>
+
+    <!-- Application form -->
+    <div class="ap-form-card">
+        <div class="ap-form-header">
+            <span style="font-size:1.1rem;">📝</span>
+            <h2>Application Form</h2>
+        </div>
+        <div class="ap-form-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% if questions %}
+                <p style="font-size:0.85rem; opacity:0.6; margin-bottom:1rem;">Answer the recruiter's screening questions below.</p>
+                {{ questions|json_script:"form-json" }}
+                <div id="application-form" style="margin-bottom:1.5rem;"></div>
+                <div style="height:2px; background:#000; margin-bottom:1.5rem;"></div>
+                {% else %}
+                <div style="text-align:center; padding:1.5rem 0; opacity:0.5;">
+                    <p style="font-size:2rem;">📋</p>
+                    <p style="font-size:0.85rem; font-weight:600;">No screening questions for this role.</p>
+                    <p style="font-size:0.78rem;">Just hit Apply Now to submit your profile.</p>
+                </div>
+                {% endif %}
+                <button type="submit" class="ap-submit-btn">
+                    🚀 Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</main>
+{% endblock content %}
+
+{% block extra_body %}
+<script src="{% static 'javascript/formRender.js' %}"></script>
+{% endblock extra_body %}

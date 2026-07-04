@@ -1,0 +1,55 @@
+{% comment %} djlint:off {% endcomment %}
+
+{% load allauth static i18n%}
+
+{% with badges=attrs.talent.get_badge_summary %}
+{% with top=badges|first %}
+
+<div class="tooltip tooltip-bottom tooltip-neutral">
+
+    <!-- 🔥 Tooltip Content -->
+    <div class="tooltip-content">
+        <div class="flex flex-col gap-3 p-2 w-auto">
+
+            {% for badge in badges %}
+            {% with tier=badge.tier|lower %}
+            <div class="flex flex-row justify-between items-center text-xs space-x-3">
+
+                <!-- Badge Image -->
+                <img src="{% static 'assests/badges/'|add:tier|add:'.png' %}" alt="{{ badge.tier }}" class="w-8 h-8">
+
+                    <!-- Label -->
+                    <span class="">
+                        {{ badge.platform|title }}
+                    </span>
+
+                    <!-- Count -->
+                    <span class="text-gray-400">
+                        x{{ badge.count }}
+                    </span>
+
+            </div>
+            {% endwith %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <button>
+        <div class="avatar">
+            <div class=" w-10 rounded-full">
+                {% if top %}
+                {% with tier=top.tier|lower %}
+                <img src="{% static 'assests/badges/'|add:tier|add:'.png' %}" alt="{{ badge.tier }}" class="w-8 h-8">
+                {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+
+
+    </button>
+
+</div>
+
+{% endwith %}
+{% endwith %}

@@ -1,0 +1,377 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+
+
+{% block head_title %}
+{% trans "Contact" %}
+{% endblock head_title %}
+
+{% block content %}
+<div id="contact" class="min-h-screen" style="background: var(--comic-cream);">
+
+    <!-- HERO -->
+    <section class="relative overflow-hidden" style="border-bottom: var(--comic-border);">
+
+        <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-32">
+
+            <div class="max-w-4xl">
+
+                <div class="section-label">
+                    Contact Us
+                </div>
+
+                <h1 class="section-title text-5xl md:text-6xl lg:text-7xl">
+                    We'd love to hear from you
+                </h1>
+
+                <p class="section-desc mt-8 text-lg md:text-xl leading-9 max-w-3xl">
+                    Questions, partnerships, support requests, or feedback —
+                    our team is here to help creators and recruiters succeed.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MAIN -->
+    <section class="max-w-7xl mx-auto px-6 py-20">
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+            <!-- CONTACT INFO -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- CARD -->
+                <div class="comic-panel">
+
+                    <div
+                        class="size-16 rounded-3xl flex items-center justify-center text-3xl mb-6"
+                        style="background: var(--comic-green-light); border: var(--comic-border-thin);">
+                        ✉
+                    </div>
+
+                    <h2 class="text-3xl font-black mb-4">
+                        Contact Information
+                    </h2>
+
+                    <p class="text-base-content/70 leading-8">
+                        Reach out to our team anytime. We'll respond as quickly as possible.
+                    </p>
+
+                    <div class="space-y-6 mt-10">
+
+                        <div>
+
+                            <div class="text-sm uppercase tracking-wider text-base-content/50 mb-2">
+                                General Support
+                            </div>
+
+                            <a href="mailto:support@Arclent.com" class="text-lg font-semibold link link-primary">
+                                support@Arclent.com
+                            </a>
+
+                        </div>
+
+                        <div>
+
+                            <div class="text-sm uppercase tracking-wider text-base-content/50 mb-2">
+                                Legal & Privacy
+                            </div>
+
+                            <a href="mailto:legal@Arclent.com" class="text-lg font-semibold link link-primary">
+                                legal@Arclent.com
+                            </a>
+
+                        </div>
+
+                        <div>
+
+                            <div class="text-sm uppercase tracking-wider text-base-content/50 mb-2">
+                                Business & Partnerships
+                            </div>
+
+                            <a href="mailto:partners@Arclent.com" class="text-lg font-semibold link link-primary">
+                                partners@Arclent.com
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- LOCATION -->
+                <div class="comic-panel">
+
+                    <div
+                        class="size-16 rounded-3xl flex items-center justify-center text-3xl mb-6"
+                        style="background: var(--comic-orange-light); border: var(--comic-border-thin);">
+                        📍
+                    </div>
+
+                    <h3 class="text-2xl font-black mb-4">
+                        Our Location
+                    </h3>
+
+                    <p class="text-base-content/70 leading-8">
+                        Arclent<br>
+                        Srinagar, Jammu & Kashmir<br>
+                        India
+                    </p>
+
+                </div>
+
+                <!-- RESPONSE TIME -->
+                <div class="comic-stat comic-stat-green" style="padding: 2rem; border-radius: var(--radius-comic);">
+
+                    <div class="flex gap-5">
+
+                        <div
+                            class="size-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                            style="background: var(--comic-green); border: var(--comic-border-thin);">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <h3 class="text-xl font-black mb-3">
+                                Fast Response Times
+                            </h3>
+
+                            <p class="text-base-content/70 leading-7">
+                                Most support and contact requests receive a response within 24–48 hours.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+            <div class="lg:col-span-7">
+
+                <div class="comic-panel" style="padding: 2.5rem;">
+
+                    <div class="mb-10">
+
+                        <div class="section-label">
+                            Send a Message
+                        </div>
+
+                        <h2 class="section-title text-4xl">
+                            Get in touch
+                        </h2>
+
+                        <p class="mt-4 text-base-content/70 leading-8">
+                            Fill out the form below and our team will get back to you shortly.
+                        </p>
+
+                    </div>
+
+                    <form class="space-y-8">
+
+                        <!-- ROW -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <div>
+
+                                <label class="block text-sm font-semibold mb-3">
+                                    Full Name
+                                </label>
+
+                                <input type="text" placeholder="John Doe"
+                                    class="input input-bordered w-full h-14 rounded-2xl text-base">
+
+                            </div>
+
+                            <div>
+
+                                <label class="block text-sm font-semibold mb-3">
+                                    Email Address
+                                </label>
+
+                                <input type="email" placeholder="you@example.com"
+                                    class="input input-bordered w-full h-14 rounded-2xl text-base">
+
+                            </div>
+
+                        </div>
+
+                        <!-- SUBJECT -->
+                        <div>
+
+                            <label class="block text-sm font-semibold mb-3">
+                                Subject
+                            </label>
+
+                            <input type="text" placeholder="How can we help?"
+                                class="input input-bordered w-full h-14 rounded-2xl text-base">
+
+                        </div>
+
+                        <!-- TYPE -->
+                        <div>
+
+                            <label class="block text-sm font-semibold mb-3">
+                                Category
+                            </label>
+
+                            <select class="select select-bordered w-full h-14 rounded-2xl text-base">
+
+                                <option disabled selected>
+                                    Select a category
+                                </option>
+
+                                <option>
+                                    General Support
+                                </option>
+
+                                <option>
+                                    Recruiter Questions
+                                </option>
+
+                                <option>
+                                    Creator Verification
+                                </option>
+
+                                <option>
+                                    Billing & Payments
+                                </option>
+
+                                <option>
+                                    Partnerships
+                                </option>
+
+                                <option>
+                                    Legal & Privacy
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- MESSAGE -->
+                        <div>
+
+                            <label class="block text-sm font-semibold mb-3">
+                                Message
+                            </label>
+
+                            <textarea rows="7" placeholder="Tell us more about your request..."
+                                class="textarea textarea-bordered w-full rounded-2xl text-base"></textarea>
+
+                        </div>
+
+                        <!-- CHECKBOX -->
+                        <div class="flex items-start gap-4">
+
+                            <input type="checkbox" class="checkbox checkbox-primary mt-1">
+
+                            <p class="text-sm text-base-content/70 leading-7">
+                                I agree to be contacted regarding my enquiry and understand
+                                that my information will be handled according to the Privacy Policy.
+                            </p>
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="pt-4">
+
+                            <button type="submit" class="btn btn-primary btn-lg rounded-2xl px-10">
+                                Send Message
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FAQ -->
+    <section class="max-w-7xl mx-auto px-6 pb-24">
+
+        <div class="comic-panel" style="padding: 2.5rem; background: var(--comic-cream);">
+
+            <div class="max-w-3xl">
+
+                <div class="section-label">
+                    Frequently Asked Questions
+                </div>
+
+                <h2 class="section-title text-4xl md:text-5xl">
+                    Common questions
+                </h2>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14">
+
+                <div class="comic-panel">
+
+                    <h3 class="text-xl font-black mb-4">
+                        How long does verification take?
+                    </h3>
+
+                    <p class="text-base-content/70 leading-8">
+                        Most creator verification requests are reviewed within 24–72 hours.
+                    </p>
+
+                </div>
+
+                <div class="comic-panel">
+
+                    <h3 class="text-xl font-black mb-4">
+                        Can recruiters contact creators directly?
+                    </h3>
+
+                    <p class="text-base-content/70 leading-8">
+                        Yes. Recruiters can connect directly with creators through the platform.
+                    </p>
+
+                </div>
+
+                <div class="comic-panel">
+
+                    <h3 class="text-xl font-black mb-4">
+                        Do you support agencies?
+                    </h3>
+
+                    <p class="text-base-content/70 leading-8">
+                        Yes. Agencies and brands can use Arclent for creator discovery and hiring.
+                    </p>
+
+                </div>
+
+                <div class="comic-panel">
+
+                    <h3 class="text-xl font-black mb-4">
+                        Where can I report an issue?
+                    </h3>
+
+                    <p class="text-base-content/70 leading-8">
+                        Please contact support@Arclent.com for technical or account-related issues.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% include 'ui/navigation/footer.html'%}
+{% endblock content %}

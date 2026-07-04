@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-12 18:23+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\src\settings.py:109
+msgid "English"
+msgstr ""
+
+#: .\src\settings.py:110
+msgid "German"
+msgstr ""
+
+#: .\src\settings.py:111
+msgid "French"
+msgstr ""
+
+#: .\src\settings.py:112
+msgid "Japanese"
+msgstr ""
+
+#: .\src\settings.py:113
+msgid "Korean"
+msgstr ""
+
+#: .\src\settings.py:114
+msgid "Portuguese"
+msgstr ""
+
+#: .\src\settings.py:115
+msgid "Hindi"
+msgstr ""
+
+#: .\src\settings.py:116
+msgid "Urdu"
+msgstr ""
+
+#: .\src\settings.py:117
+msgid "Spanish"
+msgstr ""

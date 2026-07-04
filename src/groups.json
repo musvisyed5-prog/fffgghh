@@ -1,0 +1,181 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "talent",
+    "permissions": [
+      [
+        "add_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "view_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "add_jobapplicant",
+        "job",
+        "jobapplicant"
+      ],
+      [
+        "view_jobapplicant",
+        "job",
+        "jobapplicant"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "creator",
+    "permissions": [
+      [
+        "add_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "change_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "delete_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "view_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "change_jobapplicant",
+        "job",
+        "jobapplicant"
+      ],
+      [
+        "view_jobapplicant",
+        "job",
+        "jobapplicant"
+      ],
+      [
+        "add_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "change_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "delete_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "view_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "view_point",
+        "portfolio",
+        "point"
+      ],
+      [
+        "can_verify",
+        "portfolio",
+        "video"
+      ],
+      [
+        "can_view_verified_work",
+        "portfolio",
+        "video"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "company",
+    "permissions": [
+      [
+        "add_company",
+        "company",
+        "company"
+      ],
+      [
+        "change_company",
+        "company",
+        "company"
+      ],
+      [
+        "delete_company",
+        "company",
+        "company"
+      ],
+      [
+        "view_company",
+        "company",
+        "company"
+      ],
+      [
+        "add_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "change_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "delete_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "view_customquestion",
+        "job",
+        "customquestion"
+      ],
+      [
+        "change_jobapplicant",
+        "job",
+        "jobapplicant"
+      ],
+      [
+        "view_jobapplicant",
+        "job",
+        "jobapplicant"
+      ],
+      [
+        "add_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "change_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "delete_jobposting",
+        "job",
+        "jobposting"
+      ],
+      [
+        "view_jobposting",
+        "job",
+        "jobposting"
+      ]
+    ]
+  }
+}
+]

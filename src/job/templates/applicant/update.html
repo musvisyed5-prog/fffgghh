@@ -1,0 +1,65 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n static allauth%}
+
+{% block head_title %}
+{% trans "Review candiate" %}
+{% endblock head_title %}
+
+{% block content %}
+
+{% element h1 %}
+{% trans "Review Applicants" %}
+{%endelement%}
+{% element p %}
+{% trans "Review applications, evaluate candidate responses, and identify the most qualified applicants for this position." %}
+{% endelement %}
+
+<div class="divider">{% trans "Canditate" %}</div>
+<div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 justify-between w-full ">
+    <div class="flex items-center gap-3">
+        <img src="{{ application.applicant.profile_image }}" class="w-12 h-12 rounded-full">
+        <div>
+            <h2 class="font-bold">
+                {{ application.applicant.first_name }} {{ application.applicant.last_name }}
+            </h2>
+            <a target="_blank" rel="noopener noreferrer"
+                href="{% url 'portfolio:talent_details' application.applicant.public_id %}" class="link link-primary">
+                {%trans "View Portfolio" %}</a>
+        </div>
+    </div>
+    <div>
+        <p>
+            <span class="font-semibold">{% trans "Status" %}: </span>
+            <span class="badge badge-soft
+                {% if application.status == 'APPLIED' %}badge-success
+                {% elif application.status == 'UNDER_REVIEW' %}badge-accent
+                {% elif application.status == 'SHORTLISTED' %}badge-info
+                {% elif application.status == 'INTERVIEW' %}badge-success
+                {% elif application.status == 'HIRED' %}badge-primary
+                {% else %}badge-warning
+                {% endif %}">{{application.get_status_display}}</span>
+        </p>
+
+    </div>
+</div>
+
+<div class="divider">{% trans "Review" %}</div>
+
+<main id="main">
+    {% url 'job:jobapplicant_update' applicant.job.pk applicant.pk as applicant_update_url %}
+    {% element form form=form method="post" action=applicant_update_url%}
+    {% slot body %}
+    {% csrf_token %}
+    {% element fields form=form %}{% endelement %}
+    {{ redirect_field }}
+    {% endslot %}
+    {% slot actions %}
+    {% element button type="submit" class="col-span-full btn btn-primary md:btn-lg" %}
+    {% if job %}{% trans "Save changes" %}{% else %}{% trans "Update Status" %}{% endif %}
+    {% endelement %}
+    {% endslot %}
+    {% endelement %}
+</main>
+
+
+{% endblock content %}

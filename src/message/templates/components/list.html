@@ -1,0 +1,38 @@
+{% load i18n static allauth %}
+
+
+<div class="h-screen  overflow-y-scroll mb-30 border-r">
+    <div class="w-full list ">
+        {% for converstation in converstations %}
+        <a href="{% url 'message:message_detail' converstation.converstation_id %}"
+            class="list-row flex flex-row space-x-4 w-full cursor-pointer">
+            {% for user in converstation.users.all %}
+            {% if user != request.user %}
+            <div class="avatar">
+                <div class="ring-primary ring-offset-base-100 size-12 rounded-full ring-2 ring-offset-2">
+                    <img src="{{user.profile_image}}" />
+                </div>
+            </div>
+            {% with converstation.messages.all|dictsortreversed:"date_created"|first as last_msg %}
+            <div class="text-nowrap">
+                <p class="text-lg font-bold text-left">{{user.first_name|title}} {{user.last_name}}</p>
+                {% if last_msg %}
+                <p class="text-sm text-gray-500 truncate text-left">
+                    {{ last_msg.message|truncatechars:30 }}
+                </p>
+                {% else %}
+                <p class="text-sm text-gray-400">{% trans "No messages yet" %}</p>
+                {% endif %}
+            </div>
+            {% if last_msg %}
+            <small class="ml-auto text-xs opacity-60">
+                {{ last_msg.date_created|timesince }} ago
+            </small>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+            {% endfor %}
+        </a>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,123 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n cache allauth static split_tag%}
+
+{% block head_title %}
+{% trans "My applications" %}
+{% endblock head_title %}
+
+
+{% block content %}
+{% element h1 %}
+{% trans "My Applications" %}
+{%endelement%}
+{% element p %}
+{% trans "Track and manage all your job applications in one place" %}
+{%endelement%}
+
+{% include 'applicant/components/search.html'%}
+<main id="main" class="flex flex-col space-y-5 mt-5">
+  {% for application in applications %}
+  <div class="card">
+    <div class="card-body">
+      <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 justify-between w-full ">
+        <div class="flex items-center gap-3 ">
+          <div class="size-12 border border-base-300 rounded-box flex items-center justify-center text-2xl">
+            {{ application.job.title|upper|first }}
+          </div>
+          <div>
+            <h2 class="font-bold">
+              {{ application.job.title }}
+            </h2>
+            <a target="_blank" rel="noopener noreferrer"
+              href="{% url 'job:job_detail' application.job.id %}" class="link link-primary">
+              {%trans "View Job" %}</a>
+          </div>
+        </div>
+        <div>
+          <p>
+            <span class="font-semibold">{% trans "Status" %}: </span>
+            <span class="badge badge-soft
+                {% if application.status == 'APPLIED' %}badge-success
+                {% elif application.status == 'UNDER_REVIEW' %}badge-accent
+                {% elif application.status == 'SHORTLISTED' %}badge-info
+                {% elif application.status == 'INTERVIEW' %}badge-success
+                {% elif application.status == 'HIRED' %}badge-primary
+                {% else %}badge-warning
+                {% endif %}">{{application.get_status_display}}</span>
+          </p>
+
+        </div>
+      </div>
+      {% if application.answer%}
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% trans "Question" %}</th>
+              <th>{% trans "Answer" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in application.job.job_customquestion_related.structure %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+
+              <td>
+                {{ field.name|default:"—" }}
+              </td>
+
+              <td>
+                {% for key, value in application.answer.items %}
+                {% if key|remove_brackets  == field.name %}
+                {% if field.values|is_list %}
+                {% for fvalue in field.values %}
+                {% if fvalue.value == value %}
+                {{fvalue.label}}
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                {{value}}
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+              </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="mt-2">
+          <span class="font-bold">{% trans "Message" %}:</span>
+          <span>{{application.status_reason|default:""}}</span>
+        </p>
+      </div>
+      {% endif %}
+
+      <div class="card-actions flex flex-row items-center justify-between">
+        <div>
+          <p>
+            <span class="font-semibold">{% trans "Applied date" %}: </span>
+            <span>{{application.date_created|timesince}} ago</span>
+          </p>
+          <p>
+            <span class="font-semibold">{% trans "Last update" %}: </span>
+            <span>{{application.date_updated|timesince}} ago</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="py-10 mx-auto col-span-full">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+      class="size-20 mx-auto my-2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+    </svg>
+
+    <p class="text-center">{% trans "No applicant for this job" %}</p>
+  </div>
+  {% endfor %}
+</main>
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n static allauth%}
+
+
+{% block head_title %}
+{% trans "Verified works" %}
+{% endblock head_title %}
+
+{% block content %}
+{% element h1 %}
+{% trans "Verified works" %}
+{%endelement%}
+{% element p %}
+{% trans "View all portfolio items that have been successfully verified and approved." %}
+{% endelement %}
+
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>{% trans "Platform"%}</th>
+                <th>{% trans "Video"%}</th>
+                <th>{% trans "Talent"%}</th>
+                <th>{% trans "Date"%}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for work in works %}
+            <tr>
+                <th>
+                    {{forloop.counter}}
+                </th>
+                <td>
+                    {{work.get_platform_display}}
+                </td>
+                <td>
+                    <a href="{{work.link}}" class="flex items-center gap-3" target="_blank">
+                        <div class="avatar">
+                            <div class="mask mask-squircle h-12 w-12">
+                                {% if work.platform == 'discord' %}
+                                <img src="{% static 'assests/discord-banner.webp' %}" alt="discord" />
+                                {% else %}
+                                <img src="{{work.get_thumb}}"
+                                    alt="Avatar Tailwind CSS Component" />
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold w-30 truncate">{{work.get_title}}</div>
+                            <div class="text-sm opacity-50 w-40 truncate">{{work.desc}}</div>
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'portfolio:talent_details' work.user.public_id %}" class="flex items-center gap-3" target="_blank">
+                        <div class="avatar">
+                            <div class="mask mask-squircle h-12 w-12">
+                                        <img src="{{work.user.profile_image}}"
+                                    alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold w-30 truncate">{{work.user.first_name}} {{work.user.last_name}}</div>
+                            <div class="text-sm opacity-50 w-40 truncate">{{work.get_first_role_display}}</div>
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    {{work.verified_at|timesince}} ago
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center py-10">
+                    {% trans "No verified works to show." %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock content %}

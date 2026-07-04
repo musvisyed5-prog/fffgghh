@@ -1,0 +1,18 @@
+{% extends "customquestion/upsert_base.html" %}
+{% load i18n allauth%}
+
+{% block head_title %}
+{% trans "Update question" %}
+{% endblock head_title %}
+
+{% block extra_content %}
+    {% element h1 %} {% trans "Update Screening Questions" %}{%endelement%}
+    {% element p %}
+    {% trans "Modify the screening questions applicants will answer during the application process for this job." %}
+{% endelement %}
+{% endblock extra_content %}
+
+{% block extra_form %}
+        {{ form.instance.structure|json_script:"saved-structure" }}
+        <button type="submit" class="btn btn-primary md:btn-lg mt-4">{% trans "Update questions" %}</button>
+{% endblock extra_form %}

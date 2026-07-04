@@ -1,0 +1,399 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth cache i18n %}
+
+{% block head_title %}{% trans "Explore Jobs" %}{% endblock head_title %}
+
+{% block extra_head %}
+<style>
+/* ── JOB LIST PAGE STYLES ─────────────────────────────── */
+.jobs-hero {
+    background: #000;
+    border-radius: 16px;
+    border: 3px solid #000;
+    box-shadow: 7px 7px 0 #fbbf24;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+.jobs-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.05) 15%, transparent 16%);
+    background-size: 18px 18px;
+}
+.jobs-hero-content { position: relative; z-index: 1; }
+.jobs-hero h1 {
+    color: #fff !important;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 0.5rem;
+}
+.jobs-hero p { color: rgba(255,255,255,0.7); font-size: 1rem; margin: 0; }
+.jobs-hero-count {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fbbf24; color: #000;
+    border: 2px solid #000; border-radius: 8px;
+    padding: 4px 14px; font-weight: 900;
+    font-size: 0.85rem; box-shadow: 3px 3px 0 #fff;
+    margin-bottom: 1rem;
+}
+
+/* ── DUMMY JOB CARD ───────────────────────────────────── */
+.dummy-job-card {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 12px;
+    box-shadow: 7px 7px 0 #000;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+}
+.dummy-job-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0 #000;
+    color: inherit;
+}
+.dummy-job-card-body { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; }
+
+.djc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 1rem; }
+.djc-logo {
+    width: 48px; height: 48px; border-radius: 10px;
+    border: 2px solid #000; overflow: hidden; flex-shrink: 0;
+    background: #f5f5f5; display: flex; align-items: center; justify-content: center;
+}
+.djc-logo img { width: 100%; height: 100%; object-fit: cover; }
+.djc-company-name { font-size: 0.7rem; font-weight: 900; opacity: 0.45; text-transform: uppercase; letter-spacing: 0.1em; }
+.djc-title { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1rem; line-height: 1.3; margin-top: 2px; }
+
+.djc-platform-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 2px solid #000; background: #fff;
+    box-shadow: 2px 2px 0 #000;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.djc-platform-icon img { width: 18px; height: 18px; }
+
+.djc-desc { font-size: 0.82rem; line-height: 1.55; opacity: 0.65; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.djc-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.djc-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 6px;
+    border: 2px solid #000; font-weight: 700;
+    font-size: 0.72rem; box-shadow: 2px 2px 0 #000;
+    font-family: 'Space Grotesk', sans-serif;
+    white-space: nowrap;
+}
+.djc-pill-green  { background: #d1fae5; }
+.djc-pill-orange { background: #ffedd5; }
+.djc-pill-blue   { background: #e0f2fe; }
+.djc-pill-yellow { background: #fef9c3; }
+.djc-pill-cream  { background: #faf7f2; }
+
+.djc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1rem; }
+.djc-tag {
+    padding: 2px 8px; border-radius: 6px;
+    border: 2px dashed #000; font-size: 0.7rem;
+    font-weight: 700; background: #000; color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.djc-footer {
+    margin-top: auto; padding-top: 1rem;
+    border-top: 2px solid #000;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.djc-time { font-size: 0.72rem; font-weight: 600; opacity: 0.45; }
+.djc-apply {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 5px 14px; border-radius: 6px;
+    background: #22c55e; color: #fff !important;
+    border: 2px solid #000; box-shadow: 3px 3px 0 #000;
+    font-weight: 900; font-size: 0.75rem;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: all 0.1s ease; cursor: pointer;
+}
+.djc-apply:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 #000; }
+
+.jobs-section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem; font-weight: 900;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: #f97316; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 8px;
+}
+.jobs-section-label::after {
+    content: ''; flex: 1; height: 2px; background: #000;
+}
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+
+<!-- ── HERO HEADER ───────────────────────────────────────── -->
+<div class="jobs-hero">
+    <div class="jobs-hero-content">
+        <div class="jobs-hero-count">🔥 6 Opportunities Available</div>
+        <h1>{% trans "Find Your Dream Job" %}</h1>
+        <p>{% trans "Browse handpicked opportunities in the creator economy — from video editing to brand strategy." %}</p>
+    </div>
+</div>
+
+<main id="main">
+
+{% include 'jobposting/component/search.html' %}
+
+<!-- ── DUMMY JOB CARDS (always shown for demo) ─────────── -->
+<div class="jobs-section-label mt-8">Sample Listings (Demo)</div>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+
+    <!-- 1. YouTube Video Editor — Full Time -->
+    <a href="#" class="dummy-job-card block h-full">
+        <div class="dummy-job-card-body">
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Pixel+House&backgroundColor=fbbf24&textColor=000000" alt="Pixel House" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">Pixel House Studios</div>
+                        <div class="djc-title">YouTube Video Editor</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon">
+                    <img src="https://cdn.simpleicons.org/youtube/ff0000" alt="YouTube" />
+                </div>
+            </div>
+            <p class="djc-desc">We're looking for a skilled video editor to craft cinematic short films and documentaries for our 2M+ subscriber YouTube channel. Experience with DaVinci Resolve required.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-green">⚡ Full Time</span>
+                <span class="djc-pill djc-pill-cream">🎯 1–3 yrs</span>
+                <span class="djc-pill djc-pill-yellow">💰 ₹40k–₹60k</span>
+                <span class="djc-pill djc-pill-cream">📍 Remote</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">DaVinci Resolve</span>
+                <span class="djc-tag">Color Grading</span>
+                <span class="djc-tag">Motion FX</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">2 days ago</span>
+                <span class="djc-apply">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+    <!-- 2. Instagram Thumbnail Designer — Contract -->
+    <a href="#" class="dummy-job-card block h-full">
+        <div class="dummy-job-card-body">
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=GlowMedia&backgroundColor=e1306c&textColor=ffffff" alt="Glow Media" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">Glow Media Co.</div>
+                        <div class="djc-title">Thumbnail & Graphics Designer</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon">
+                    <img src="https://cdn.simpleicons.org/instagram/e1306c" alt="Instagram" />
+                </div>
+            </div>
+            <p class="djc-desc">Create eye-catching thumbnails, story graphics, and carousel posts for our lifestyle brand with 800K Instagram followers. Figma and Photoshop proficiency required.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-blue">📋 Contract</span>
+                <span class="djc-pill djc-pill-cream">🎯 Freshers OK</span>
+                <span class="djc-pill djc-pill-yellow">💰 ₹20k–₹35k</span>
+                <span class="djc-pill djc-pill-cream">📍 Mumbai, India</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">Figma</span>
+                <span class="djc-tag">Photoshop</span>
+                <span class="djc-tag">Canva Pro</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">5 days ago</span>
+                <span class="djc-apply">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+    <!-- 3. Script Writer — Part Time -->
+    <a href="#" class="dummy-job-card block h-full">
+        <div class="dummy-job-card-body">
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=NarrateX&backgroundColor=22c55e&textColor=000000" alt="NarrateX" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">NarrateX Agency</div>
+                        <div class="djc-title">Creative Script Writer</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon">
+                    <img src="https://cdn.simpleicons.org/youtube/ff0000" alt="YouTube" />
+                </div>
+            </div>
+            <p class="djc-desc">Write compelling, story-driven scripts for documentary-style YouTube content. You'll work with a 5M subscriber finance channel covering investing and personal growth topics.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-orange">🕐 Part Time</span>
+                <span class="djc-pill djc-pill-cream">🎯 2–5 yrs</span>
+                <span class="djc-pill djc-pill-yellow">💰 ₹25k–₹40k</span>
+                <span class="djc-pill djc-pill-cream">📍 Remote</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">Storytelling</span>
+                <span class="djc-tag">Research</span>
+                <span class="djc-tag">Finance Niche</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">1 week ago</span>
+                <span class="djc-apply">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+    <!-- 4. TikTok/Reels Short-Form Editor — Full Time -->
+    <a href="#" class="dummy-job-card block h-full">
+        <div class="dummy-job-card-body">
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=CutLab&backgroundColor=000000&textColor=ffffff" alt="CutLab" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">CutLab Studios</div>
+                        <div class="djc-title">Short-Form Content Editor</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon">
+                    <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok" />
+                </div>
+            </div>
+            <p class="djc-desc">Edit viral-ready Reels, TikToks and YouTube Shorts for multiple brand clients. You should have a strong sense of pacing, trending audio, and hook-first editing strategies.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-green">⚡ Full Time</span>
+                <span class="djc-pill djc-pill-cream">🎯 1–2 yrs</span>
+                <span class="djc-pill djc-pill-yellow">💰 ₹35k–₹55k</span>
+                <span class="djc-pill djc-pill-cream">📍 Bangalore, IN</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">CapCut</span>
+                <span class="djc-tag">Premiere Pro</span>
+                <span class="djc-tag">Trend Aware</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">3 days ago</span>
+                <span class="djc-apply">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+    <!-- 5. Twitch Community Manager — Part Time -->
+    <a href="#" class="dummy-job-card block h-full">
+        <div class="dummy-job-card-body">
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=StreamVault&backgroundColor=9146ff&textColor=ffffff" alt="StreamVault" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">StreamVault Gaming</div>
+                        <div class="djc-title">Community & Chat Manager</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon">
+                    <img src="https://cdn.simpleicons.org/twitch/9146ff" alt="Twitch" />
+                </div>
+            </div>
+            <p class="djc-desc">Manage our Twitch community of 150K followers — moderate chat, create Discord engagement, schedule events, and work directly with the streamer on growth strategy.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-orange">🕐 Part Time</span>
+                <span class="djc-pill djc-pill-cream">🎯 Freshers OK</span>
+                <span class="djc-pill djc-pill-yellow">💰 Not disclosed</span>
+                <span class="djc-pill djc-pill-cream">📍 Remote</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">Discord</span>
+                <span class="djc-tag">Moderation</span>
+                <span class="djc-tag">Gaming</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">6 days ago</span>
+                <span class="djc-apply">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+    <!-- 6. Brand Strategist — Full Time (FEATURED) -->
+    <a href="#" class="dummy-job-card block h-full" style="border-color:#fbbf24; box-shadow:7px 7px 0 #fbbf24; background:#fffbeb;">
+        <div class="dummy-job-card-body">
+            <div style="display:inline-flex; align-items:center; gap:6px; background:#fbbf24; color:#000; border:2px solid #000; border-radius:6px; padding:2px 10px; font-size:0.7rem; font-weight:900; font-family:'Space Grotesk',sans-serif; margin-bottom:12px; box-shadow:2px 2px 0 #000;">
+                ⭐ Featured
+            </div>
+            <div class="djc-header">
+                <div class="flex items-center gap-3">
+                    <div class="djc-logo">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=Arclent+Inc&backgroundColor=fbbf24&textColor=000000" alt="Arclent" />
+                    </div>
+                    <div>
+                        <div class="djc-company-name">Arclent Inc.</div>
+                        <div class="djc-title">Creator Brand Strategist</div>
+                    </div>
+                </div>
+                <div class="djc-platform-icon" style="background:#fffbeb;">
+                    <img src="https://cdn.simpleicons.org/linkedin/0a66c2" alt="LinkedIn" />
+                </div>
+            </div>
+            <p class="djc-desc">Lead brand strategy and sponsorship deals for a roster of top-tier creators across YouTube, Instagram, and podcasts. You'll craft media kits, pitch decks, and negotiate 6-figure brand deals.</p>
+            <div class="djc-pills">
+                <span class="djc-pill djc-pill-green">⚡ Full Time</span>
+                <span class="djc-pill djc-pill-cream">🎯 3–6 yrs</span>
+                <span class="djc-pill djc-pill-yellow">💰 ₹80k–₹1.2L</span>
+                <span class="djc-pill djc-pill-cream">📍 Delhi, IN</span>
+            </div>
+            <div class="djc-tags">
+                <span class="djc-tag">Brand Deals</span>
+                <span class="djc-tag">Media Kits</span>
+                <span class="djc-tag">Negotiation</span>
+                <span class="djc-tag">Sponsorships</span>
+            </div>
+            <div class="djc-footer">
+                <span class="djc-time">1 day ago</span>
+                <span class="djc-apply" style="background:#000; color:#fbbf24 !important;">Apply Now →</span>
+            </div>
+        </div>
+    </a>
+
+</section>
+
+<!-- ── REAL JOBS (from DB) ───────────────────────────────── -->
+{% cache 900 job_card LANGUAGE_CODE request.GET.urlencode %}
+{% if jobs %}
+<div class="jobs-section-label">Live Job Listings</div>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for job in jobs %}
+    {% element jobcard job=job %}{% endelement %}
+    {% endfor %}
+</section>
+{% else %}
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for job in jobs %}
+    {% element jobcard job=job %}{% endelement %}
+    {% empty %}
+    <!-- No real jobs to show — dummy data above is shown -->
+    {% endfor %}
+</section>
+{% endif %}
+{% endcache %}
+
+{% include 'jobposting/component/pagination.html' %}
+</main>
+{% endblock content %}

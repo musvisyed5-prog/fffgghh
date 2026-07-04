@@ -1,0 +1,238 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n static group_tags %}
+
+
+
+{% block head_title %}
+{% trans "Arclent  | Dashboard" %}
+{% endblock head_title %}
+
+
+{% block content %}
+
+<div class="flex flex-col space-y-6 px-6 mb-20">
+
+
+
+    <h1 class="text-2xl font-bold">
+        Welcome; {{request.user.first_name|title }} {{request.user.last_name}}
+    </h1>
+
+    <!-- ========================= -->
+    <!-- 👤 TALENT DASHBOARD -->
+    <!-- ========================= -->
+    {% if role == 'talent' %}
+    <!-- STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="comic-stat">
+            <p>{% trans "Total" %}</p>
+            <h2>{{ stats.total }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-blue">
+            <p>{% trans "Applied" %}</p>
+            <h2>{{ stats.applied }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-green">
+            <p>{% trans "Shortlisted" %}</p>
+            <h2>{{ stats.shortlisted }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-red">
+            <p>{% trans "Rejected" %}</p>
+            <h2>{{ stats.rejected }}</h2>
+        </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Pie Chart -->
+        <div class="comic-panel">
+            <h3 class="font-semibold mb-2">{% trans "Application Status" %}</h3>
+            <canvas id="statusChart" class="max-h-72"></canvas>
+        </div>
+
+        <!-- Line Chart -->
+        <div class="comic-panel">
+            <h3 class="font-semibold mb-2">{% trans "Applications Over Time" %}</h3>
+            <canvas id="timelineChart" class="max-h-72"></canvas>
+        </div>
+
+    </div>
+
+    <!-- RECENT -->
+    <div class="comic-panel">
+        <h3 class="font-semibold mb-3">{% trans "Recent Applications" %}</h3>
+        <div class="overflow-x-auto">
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="py-2">{% trans "Job" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Date" %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in recent %}
+                    <tr>
+                        <td class="py-2">{{ app.job.title }}</td>
+                        <td>{{ app.status }}</td>
+                        <td>{{ app.date_created|date:"Y-m-d" }}</td>
+                        <td>
+                            <a class="btn btn-link btn-xs btn-info" href="{% url 'job:owned_applications' %}">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% endif %}
+
+    <!-- ========================= -->
+    <!-- 🏢 RECRUITER DASHBOARD -->
+    <!-- ========================= -->
+    {% if role == 'company' or role == 'creator' %}
+
+    <!-- STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="comic-stat">
+            <p>{% trans "Total Jobs" %}</p>
+            <h2>{{ stats.total_jobs }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-green">
+            <p>{% trans "Active Jobs" %}</p>
+            <h2>{{ stats.active_jobs }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-red">
+            <p>{% trans "Expired Jobs" %}</p>
+            <h2>{{ stats.expired_jobs }}</h2>
+        </div>
+    </div>
+
+    <!-- APPLICATION STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="comic-stat comic-stat-blue">
+            <p>{% trans "Total Applications" %}</p>
+            <h2>{{ app_stats.total }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-gray">
+            <p>{% trans "Applied" %}</p>
+            <h2>{{ app_stats.applied }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-green">
+            <p>{% trans "Shortlisted" %}</p>
+            <h2>{{ app_stats.shortlisted }}</h2>
+        </div>
+        <div class="comic-stat comic-stat-red">
+            <p>{% trans "Rejected" %}</p>
+            <h2>{{ app_stats.rejected }}</h2>
+        </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="comic-panel">
+        <h3 class="font-semibold mb-2">{% trans "Applications Per Job" %}</h3>
+        <canvas id="jobChart"></canvas>
+    </div>
+
+    <!-- RECENT APPLICATIONS -->
+    <div class="comic-panel">
+        <h3 class="font-semibold mb-3">{% trans "Recent Applications" %}</h3>
+
+        <div class="overflow-x-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Applicant" %}</th>
+                        <th>{% trans "Job" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in recent_applications %}
+                    <tr>
+                        <td>{{ app.applicant }}</td>
+                        <td>{{ app.job.title }}</td>
+                        <td>{{ app.status }}</td>
+                        <td>
+                            <a class="btn btn-xs btn-link btn-info"
+                                href="{% url 'job:jobapplicant_list' app.job.pk %}">{% trans "View"%}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+{{ status_breakdown|json_script:"status-data" }}
+{{ timeline|json_script:"timeline-data" }}
+{{ job_performance|json_script:"job-data" }}
+{% endblock content %}
+
+{% block extra_body%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const statusData = JSON.parse(document.getElementById('status-data').textContent);
+    const timelineData = JSON.parse(document.getElementById('timeline-data').textContent);
+    const jobData = JSON.parse(document.getElementById('job-data').textContent);
+
+    // -------------------------
+    // PIE CHART (Talent)
+    // -------------------------
+    if (statusData.length) {
+        new Chart(document.getElementById('statusChart'), {
+            type: 'pie',
+            data: {
+                labels: statusData.map(i => i.status),
+                datasets: [{
+                    data: statusData.map(i => i.count)
+                }]
+            }
+        });
+    }
+
+    // -------------------------
+    // LINE CHART (Timeline)
+    // -------------------------
+    if (timelineData.length) {
+        new Chart(document.getElementById('timelineChart'), {
+            type: 'line',
+            data: {
+                labels: timelineData.map(i => i.date),
+                datasets: [{
+                    label: 'Applications',
+                    data: timelineData.map(i => i.count),
+                    fill: false
+                }]
+            }
+        });
+    }
+
+    // -------------------------
+    // BAR CHART (Recruiter)
+    // -------------------------
+    if (jobData.length) {
+        new Chart(document.getElementById('jobChart'), {
+            type: 'bar',
+            data: {
+                labels: jobData.map(i => i.job__title),
+                datasets: [{
+                    label: 'Applications',
+                    data: jobData.map(i => i.app_count)
+                }]
+            }
+        });
+    }
+</script>
+
+{% endblock extra_body%}

@@ -1,0 +1,16 @@
+{% extends "allauth/layouts/base.html" %}
+
+
+{% block body %}
+    <main id="main"
+        class="grow flex flex-col items-center justify-center py-12 px-4">
+        <div class="w-full max-w-lg">
+            <div class="card">
+                <div class="card-body">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock%}

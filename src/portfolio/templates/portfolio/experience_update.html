@@ -1,0 +1,24 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+{% load cache allauth %}
+
+
+{% block head_title %}
+{% blocktrans with name=experience.title|title %} {{ name }}{% endblocktrans %}
+{% endblock head_title %}
+
+{% block content %}
+
+{% url 'portfolio:update_experience' experience.pk as form_url %}
+{% element form form=form method="post" action=form_url%}
+{% slot body %}
+{% csrf_token %}
+{% element fields form=form %}{% endelement %}
+{% endslot %}
+{% slot actions %}
+{% element button type="submit" %}
+{% trans "update" %}
+{% endelement %}
+{% endslot %}
+{% endelement %}
+{% endblock content %}

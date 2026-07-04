@@ -1,0 +1,77 @@
+{% load i18n %}
+
+<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/80 backdrop-blur-md">
+    {% include "ui/navigation/messages.html" %}
+
+    <a href="#main"
+        class="absolute left-1/2 -translate-x-1/2 -top-20 focus:top-4 bg-base-100 text-base-content px-4 py-2 rounded-md shadow z-50 transition-all">
+        {% trans "Skip to content" %}
+    </a>
+
+
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20 space-x-4">
+            {% if request.user.is_authenticated %}
+            <label for="my-drawer-1" aria-label="open sidebar" class="btn btn-square btn-ghost hidden md:block">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="my-1.5 inline-block size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </label>
+            {% endif %}
+            {% include "ui/logo.html" %}
+            {% include "ui/navigation/nav.html" %}
+        </div>
+    </div>
+
+</header>
+
+
+<div class="fab z-50">
+    <div tabindex="0" role="button" class="btn btn-lg btn-circle btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+        </svg>
+
+    </div>
+
+    <button class="btn" onclick="my_modal_1.showModal()">{% trans "Feedback" %}</button>
+    <a href="https://cal.com/syed-zeshan/15min" target="_blank" referrerpolicy="no-referrer" class="btn">
+        {% trans "Talk with founder" %}
+    </a>
+</div>
+
+<dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">{% trans "Submit Feedback" %}</h3>
+        <p class="py-4">{% trans "We'd love to hear your thoughts on what's working and what could be better." %}</p>
+        <div class="modal-action">
+            <form class="w-full flex flex-col space-y-2" method="post" action="{% url 'core:feedback'%}">
+                {% csrf_token %}
+                <textarea name="feedback" id="id_feedback" placeholder="Tell us what you think......"></textarea>
+                <div class="flex flex-row items-center justify-between space-x-6">
+                    <button class="btn btn-primary btn-sm" type="submit">{% trans "Submit" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+
+<button class="btn" onclick="report.showModal()">open modal</button>
+<dialog id="report" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="text-lg font-bold">Hello!</h3>
+    <p class="py-4">Press ESC key or click on ✕ button to close</p>
+  </div>
+</dialog>

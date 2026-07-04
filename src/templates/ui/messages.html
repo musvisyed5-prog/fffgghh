@@ -1,0 +1,24 @@
+<div class="toast  toast-end mb-20 z-50">
+  {% for message in messages %}
+  <div class="alert message-alert
+    {% if message.tags == 'success' %}alert-success
+    {% elif message.tags == 'error' %}alert-error
+    {% elif message.tags == 'warning' %}alert-warning
+    {% else %}alert-info
+    {% endif %}
+    my-2 transition-opacity duration-500" role="alert">
+
+    <span>{{ message }}</span>
+  </div>
+
+  {% endfor %}
+</div>
+
+<script>
+  setTimeout(() => {
+    document.querySelectorAll('.message-alert').forEach(el => {
+      el.classList.add('opacity-0');
+      setTimeout(() => el.remove(), 500);
+    });
+  }, 3000); // 3 seconds
+</script>

@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<h2>{% trans "Application Received" %}</h2>
+
+<p>{% blocktrans with name=name %}Hi {{ name }},{% endblocktrans %}</p>
+
+<p>
+{% blocktrans with job_title=job_title %}
+Thank you for applying for the <strong>{{ job_title }}</strong> position.
+We have received your application successfully.
+{% endblocktrans %}
+</p>
+
+<p>
+{% trans "Our recruitment team will review your profile and contact you if you are shortlisted." %}
+</p>
+
+<p>
+<a href="{{ application_url }}">{% trans "View your application" %}</a>
+</p>
+
+<p>
+{% trans "Best of luck!" %}<br>
+{% trans "The Hiring Team" %}
+</p>

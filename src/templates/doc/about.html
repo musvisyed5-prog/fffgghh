@@ -1,0 +1,384 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+
+
+{% block head_title %}
+{% trans "About" %}
+{% endblock head_title %}
+
+{% block content %}
+<div id="about" class="min-h-screen" style="background: var(--comic-cream);">
+
+    <!-- HERO -->
+    <section class="relative overflow-hidden" style="border-bottom: var(--comic-border);">
+
+        <div class="relative max-w-7xl mx-auto px-6 py-24 lg:py-32">
+
+            <div class="max-w-4xl">
+
+                <div class="section-label">
+                    About Arclent
+                </div>
+
+                <h1 class="section-title text-5xl md:text-6xl lg:text-7xl">
+                    The Verified Creator Hiring Platform
+                </h1>
+
+                <p class="section-desc mt-8 text-lg md:text-xl leading-9 max-w-3xl">
+                    Arclent connects creators, freelancers, editors, designers,
+                    streamers, and digital talent with recruiters and brands —
+                    powered by AI-driven verification and trust-first hiring.
+                </p>
+
+                <div class="mt-10 flex flex-wrap gap-4">
+
+                    <a href="#mission" class="btn btn-primary btn-lg rounded-2xl px-8">
+                        Our Mission
+                    </a>
+
+                    <a href="#features" class="btn btn-outline btn-lg rounded-2xl px-8">
+                        Platform Features
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STATS -->
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div class="comic-panel">
+
+                <div class="text-5xl font-black" style="color: var(--comic-orange);">
+                    AI
+                </div>
+
+                <p class="mt-3 text-base-content/70 leading-7">
+                    AI-powered creator verification and intelligent matching system.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-5xl font-black" style="color: var(--comic-orange);">
+                    100%
+                </div>
+
+                <p class="mt-3 text-base-content/70 leading-7">
+                    Built specifically for the creator economy and digital talent industry.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-5xl font-black" style="color: var(--comic-orange);">
+                    Trust
+                </div>
+
+                <p class="mt-3 text-base-content/70 leading-7">
+                    Verified badges help recruiters discover authentic professionals.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-5xl font-black" style="color: var(--comic-orange);">
+                    Global
+                </div>
+
+                <p class="mt-3 text-base-content/70 leading-7">
+                    Designed for creators, agencies, startups, and brands worldwide.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" class="max-w-7xl mx-auto px-6 py-10">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            <div>
+
+                <div class="section-label">
+                    Our Mission
+                </div>
+
+                <h2 class="section-title text-4xl md:text-5xl">
+                    Building trust in creator hiring.
+                </h2>
+
+                <p class="mt-6 text-base-content/70 leading-8 text-lg">
+                    The creator economy is growing rapidly, but hiring remains difficult.
+                    Fake portfolios, unverifiable work, and inconsistent profiles make
+                    it hard for recruiters to confidently discover real talent.
+                </p>
+
+                <p class="mt-6 text-base-content/70 leading-8 text-lg">
+                    Arclent solves this through AI-powered verification,
+                    creator authenticity scoring, portfolio validation,
+                    and intelligent job matching.
+                </p>
+
+            </div>
+
+            <div class="comic-panel" style="padding: 2.5rem;">
+
+                <div class="space-y-8">
+
+                    <div class="flex gap-5">
+
+                        <div
+                            class="size-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                            style="background: var(--comic-green-light); border: var(--comic-border-thin);">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <h3 class="text-xl font-bold mb-2">
+                                Verified Talent
+                            </h3>
+
+                            <p class="text-base-content/70 leading-7">
+                                AI verification ensures creators are authentic and trustworthy.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex gap-5">
+
+                        <div
+                            class="size-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                            style="background: var(--comic-yellow); border: var(--comic-border-thin);">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <h3 class="text-xl font-bold mb-2">
+                                Faster Hiring
+                            </h3>
+
+                            <p class="text-base-content/70 leading-7">
+                                Recruiters discover relevant creators using intelligent recommendations.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex gap-5">
+
+                        <div
+                            class="size-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                            style="background: var(--comic-orange-light); border: var(--comic-border-thin);">
+                            🛡
+                        </div>
+
+                        <div>
+
+                            <h3 class="text-xl font-bold mb-2">
+                                Trust First
+                            </h3>
+
+                            <p class="text-base-content/70 leading-7">
+                                Verification badges provide confidence before collaboration begins.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="max-w-7xl mx-auto px-6 py-20">
+
+        <div class="text-center max-w-3xl mx-auto">
+
+            <div class="section-label mx-auto">
+                Platform Features
+            </div>
+
+            <h2 class="section-title text-4xl md:text-5xl">
+                Built for modern creator hiring
+            </h2>
+
+            <p class="section-desc mt-6 text-lg leading-8">
+                Powerful tools for creators, recruiters, and agencies.
+            </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    🎥
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    Creator Verification
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Verify portfolios and creator identity using OAuth,
+                    AI validation, and platform-based checks.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    🤖
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    AI Job Matching
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Intelligent recommendations connect recruiters with
+                    creators based on skills, content, and experience.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    🚀
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    Featured Profiles
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Boost visibility with featured creator listings,
+                    pinned portfolio videos, and enhanced rankings.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    📈
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    Analytics & Insights
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Understand profile performance, recruiter activity,
+                    and engagement across your portfolio.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    💼
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    Recruiter Tools
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Post jobs, manage applications, discover creators,
+                    and receive direct proposals from talent.
+                </p>
+
+            </div>
+
+            <div class="comic-panel">
+
+                <div class="text-4xl mb-5">
+                    🌍
+                </div>
+
+                <h3 class="text-2xl font-black mb-4">
+                    Global Opportunities
+                </h3>
+
+                <p class="text-base-content/70 leading-8">
+                    Connect with creators and companies across industries
+                    and countries worldwide.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="max-w-7xl mx-auto px-6 pb-24">
+
+        <div class="comic-panel" style="padding: 2.5rem; background: var(--comic-yellow-bright);">
+
+            <div class="max-w-4xl">
+
+                <div class="section-label">
+                    Join Arclent
+                </div>
+
+                <h2 class="section-title text-4xl md:text-6xl">
+                    Find verified creators or your next opportunity.
+                </h2>
+
+                <p class="mt-8 text-lg text-base-content/70 leading-9 max-w-3xl">
+                    Whether you're a creator looking for opportunities
+                    or a recruiter searching for authentic talent,
+                    Arclent helps you connect faster with confidence.
+                </p>
+
+                <div class="mt-10 flex flex-wrap gap-4">
+
+                    <a href="#" class="btn btn-primary btn-lg rounded-2xl px-8">
+                        Get Started
+                    </a>
+
+                    <a href="#" class="btn btn-outline btn-lg rounded-2xl px-8">
+                        Explore Talent
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% include 'ui/navigation/footer.html'%}
+{% endblock content %}

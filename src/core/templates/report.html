@@ -1,0 +1,32 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n allauth account static %}
+
+
+{% block head_title %}
+{% trans "Arclent Report" %}
+{% endblock head_title %}
+
+{% block body %}
+<main id="main" class="text-center p-10">
+    {% include "ui/navigation/goback.html" %}
+    {% element h1 %} {% trans "Report" %}{% endelement %}
+    {% element p %}
+    {% trans "Do not stay back report to us!" %}
+    {% endelement p %}
+
+    {% url 'core:report' as report_url %}
+    {% element form form=form method="post" class="flex flex-col space-y-4 text-start md:w-lg md:mx-auto" action=report_url tags="entrance,login" %}
+    {% slot body %}
+    {% csrf_token %}
+    {% element fields form=form %}{% endelement %}
+    {{ redirect_field }}
+    {% endslot %}
+    {% slot actions %}
+    {% element button type="submit" tags="prominent,login" %}
+    {% trans "Submit" %}
+    {% endelement %}
+    {% endslot %}
+    {% endelement %}
+</main>
+
+{% endblock body %}

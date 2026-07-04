@@ -1,0 +1,113 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+{% load socialaccount %}
+{% load allauth %}
+{% load group_tags %}
+
+{% block head_title %}
+    {% trans "Account Connections" %}
+{% endblock head_title %}
+
+{% block content %}
+
+{% element h1 %}
+    {% trans "Connect Your Platforms" %}
+{% endelement %}
+{% element p %}
+    {% blocktrans %}Linking your accounts allows us to verify your work and Publish jobs{% endblocktrans %}
+{% endelement %}
+
+{% get_social_accounts request.user as accounts %}
+{% get_providers as socialaccount_providers %}
+
+<div class="space-y-5 my-6">
+
+{% for provider in socialaccount_providers %}
+    {% with accounts|get_item:provider.id as connected_accounts %}
+
+    <div class="flex flex-row justify-between items-center comic-panel" style="padding: 1rem;">
+
+        <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 flex items-center justify-center">
+                <img
+                    src="
+                    {% if provider.id == 'google' %}
+                        https://cdn.simpleicons.org/youtube
+                    {% elif provider.id == 'github' %}
+                        https://cdn.simpleicons.org/github
+                    {% elif provider.id == 'facebook' %}
+                        https://cdn.simpleicons.org/facebook
+                    {% elif provider.id == 'twitter' %}
+                        https://cdn.simpleicons.org/twitter
+                    {% elif provider.id == 'discord' %}
+                        https://cdn.simpleicons.org/discord
+                    {% elif provider.id == 'twitch' %}
+                        https://cdn.simpleicons.org/twitch
+                    {% else %}
+                        https://via.placeholder.com/32
+                    {% endif %}
+                    "
+                    class="w-8 h-8"
+                    alt="{{ provider.name }}"
+                >
+            </div>
+
+            <div>
+                <h3 class="font-bold" style="color: var(--comic-dark);">
+                    {% if provider.name.lower == 'google' %}
+                        Youtube
+                    {% else %}
+                    {{ provider.name }}
+                    {% endif %}
+                </h3>
+                <p class="text-xs font-medium">
+                    {% if connected_accounts %}
+                        {% with acc=connected_accounts.0  %}
+                            <span style="color: #15803d; font-weight: 700;">
+                                Connected as {{acc.get_provider_account}}
+                                <br>
+                                <span class="text-base-content/50" style="font-weight: 500;">
+                                    Connected on {{ acc.date_joined|date:"M d, Y" }}
+                                </span>
+                            </span>
+                        {% endwith %}
+                    {% else %}
+                        <span class="text-base-content/50">
+                            Status: Not Connected
+                        </span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div>
+
+            {% if connected_accounts %}
+                <form method="post" action="{% url 'socialaccount_connections' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="account" value="{{ connected_accounts.0.pk }}">
+                    <button type="submit" class="btn btn-outline btn-error btn-sm">
+                        {% trans "Disconnect" %}
+                    </button>
+                </form>
+
+            {% else %}
+
+                {% provider_login_url provider process="connect" as href %}
+                <a href="{{ href }}" class="btn  btn-sm">
+                    {% trans "Connect" %}
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endwith %}
+{% endfor %}
+
+</div>
+
+{% endblock content %}

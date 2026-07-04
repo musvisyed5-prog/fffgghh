@@ -1,0 +1,75 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}
+{% trans "Profile" %}
+{% endblock head_title %}
+
+{% block content %}
+
+<main id="main">
+    <div class="flex flex-row items-center space-x-4 my-2">
+        <div class="avatar">
+            <div class="ring-primary ring-offset-base-100 w-12 rounded-full ring-2 ring-offset-2">
+                <img src="{{ request.user.profile_image }}" alt="{% trans 'user profile picture' %}" />
+            </div>
+        </div>
+        {% element h1 %}
+        {% trans "My Profile" %}
+        {% endelement %}
+    </div>
+    {% element p %}
+    {% trans "Your profile will be visible on Arclent to help you connect with the right opportunities." %}
+    {% endelement %}
+
+
+    <div class="divider mt-10">{% trans "Personal Details"%}</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-5">
+        {% trans "Email address" as email_label %}
+        {% element readonlyfield label=email_label value=user.email readonly=True %} {% endelement%}
+
+        {% trans "Language" as language_label %}
+
+        {% url 'core:deactive' as settings_url %}
+        {% blocktrans asvar help_text_language with settings_url=settings_url trimmed %}
+        <a href="{{ settings_url }}#language">Update your language preference in Settings</a>
+        {% endblocktrans %}
+
+        {% element readonlyfield label=language_label value=user.get_language_display readonly=True help_text=help_text_language%}
+        {% endelement%}
+            <div class="col-span-full">
+                {% url 'core:profile' as profile_url %}
+                {% element form form=form method="post" action=profile_url tags="entrance,login" class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-5" %}
+                {% slot body %}
+                {% csrf_token %}
+                {% element fields form=form  %}{% endelement  %}
+                {{ redirect_field }}
+                {% endslot %}
+                {% slot actions %}
+                {% element button type="submit" tags="prominent,login" %}
+                {% trans "Update" %}
+                {% endelement %}
+                {% endslot %}
+                {% endelement %}
+            </div>
+        
+
+        <div class="divider mt-10 col-span-full">{% trans "Timeline"%}</div>
+        {% trans "Date joined" as date_joined_label %}
+        {% trans "Last login" as last_login_label %}
+
+        {% element p %}
+        {{ date_joined_label }}:
+        {% element time time=user.date_joined %}{% endelement %}
+        {% endelement %}
+
+        {% element p %}
+        {{ last_login_label }}:
+        {% element time time=user.last_login %}{% endelement %}
+        {% endelement %}
+    </div>
+
+
+</main>
+
+{% endblock content %}

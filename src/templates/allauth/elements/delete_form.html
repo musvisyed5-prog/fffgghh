@@ -1,0 +1,33 @@
+{% comment %} djlint:off {% endcomment %}
+
+{% load allauth static i18n%}
+
+
+<div class="bg-error/5 rounded-box px-4 py-2 select-none" id="delete">
+    {% element h2 %}
+    {% blocktrans with title=attrs.title %} {{title}}{% endblocktrans %}
+    {% endelement %}
+
+    {% element form form=form method="post" action=attrs.url %}
+    {% slot body %}
+    {% csrf_token %}
+    <p class="text-error">
+        {% blocktrans with name=attrs.name%}
+        To confirm, type "{{name}}" in the box below
+        {% endblocktrans %}
+    </p>
+    <input type="text" class="input input-neutral my-2 w-full bg-transparent border-error outline-error text-error"
+        id="deleteMyAccount" oninput="changeDisablity('{{attrs.name}}', 'deleteMyAccount', 'deleteBtn')" 
+        onpaste="return false;"
+        autocomplete="off"
+    >
+    {% endslot %}
+    {% slot actions %}
+    {% element button type="submit" class='btn btn-error md:btn-lg' disabled="disabled" id="deleteBtn" %}
+    {% trans "Confirm action" %}
+    {% endelement %}
+    {% endslot %}
+    {% endelement%}
+</div>
+
+<script src="{% static 'javascript/handlers.js' %}"></script>

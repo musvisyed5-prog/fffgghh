@@ -1,0 +1,32 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n allauth account static %}
+
+
+{% block head_title %}
+{% trans "Arclent  Feedback" %}
+{% endblock head_title %}
+
+{% block body %}
+<main id="main" class="text-center p-10">
+    {% include "ui/navigation/goback.html" %}
+    {% element h1 %} {% trans "Feedback" %}{% endelement %}
+    {% element p %}
+    {% trans "Your feedback is important to us!" %}
+    {% endelement p %}
+
+    {% url 'core:feedback' as feedback_url %}
+    {% element form form=form method="post" class="flex flex-col space-y-4 text-start md:w-lg md:mx-auto" action=feedback_url tags="entrance,login" %}
+    {% slot body %}
+    {% csrf_token %}
+    {% element fields form=form %}{% endelement %}
+    {{ redirect_field }}
+    {% endslot %}
+    {% slot actions %}
+    {% element button type="submit" tags="prominent,login" %}
+    {% trans "Submit" %}
+    {% endelement %}
+    {% endslot %}
+    {% endelement %}
+</main>
+
+{% endblock body %}

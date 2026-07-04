@@ -1,0 +1,29 @@
+{% extends "allauth/layouts/base.html" %}
+{% load i18n %}
+
+{% block head_title %}DEV: Login as{% endblock head_title %}
+
+{% block body %}
+<main id="main" style="max-width: 720px; margin: 3rem auto; padding: 0 1.5rem;">
+    <div class="comic-panel" style="padding: 2rem;">
+        <p class="section-label" style="margin-bottom: 0.5rem;">DEBUG ONLY</p>
+        <h1 style="font-family: var(--font-header); font-weight: 900; font-size: 1.75rem; margin-bottom: 1.5rem;">
+            Log in as a test user
+        </h1>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            {% for u in users %}
+            <form method="post" style="margin: 0;">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ u.pk }}">
+                <button type="submit" class="btn-glass-outline" style="width: 100%; justify-content: space-between; text-align: left;">
+                    <span>{{ u.email }}</span>
+                    <span style="opacity: 0.6; font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">
+                        {% for g in u.groups.all %}{{ g.name }}{% if not forloop.last %}, {% endif %}{% empty %}no group{% endfor %}
+                    </span>
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock body %}

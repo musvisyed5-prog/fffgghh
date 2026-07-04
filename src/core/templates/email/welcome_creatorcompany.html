@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<p>{% blocktrans with name=name %}Hey {{ name }},{% endblocktrans %}</p>
+
+<p>
+   {% trans "Welcome to Arclent — where every candidate's portfolio is verified, not just claimed." %}
+</p>
+<p>
+     {% trans "You're now set up as a recruiter. Here's what you can do right now:" %}
+</p>
+
+<ul>
+    <li>
+        {% trans "Post your first job — it's free, and it's live for 30 days" %}
+    </li>
+    <li>
+        {% trans "Browse talent — search by skill, badge tier, and platform" %}
+    </li>
+    <li>
+        {% trans "Receive applications — verified talent will come to you" %}
+    </li>
+</ul>
+
+<h4> {% trans "Get verified" %}</h4>
+
+<p>
+    {% trans "The difference you'll notice immediately: every portfolio piece on Arclent has been confirmed by the creator it was made for. No more guessing if a candidate's work is real." %}
+</p>
+
+<p>
+    {% trans "We'll take it from there." %}<br>
+    {% trans "----The Arclent Team" %}
+</p>

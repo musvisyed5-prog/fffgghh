@@ -1,0 +1,136 @@
+{% load i18n group_tags %}
+
+<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/80 backdrop-blur-md nav-glass">
+
+    <a href="#main"
+        class="absolute left-1/2 -translate-x-1/2 -top-20 focus:top-4 bg-base-100 text-base-content px-4 py-2 rounded-md shadow z-50 transition-all">
+        {% trans "Skip to content" %}
+    </a>
+
+
+    <nav class="mx-auto px-4 sm:px-6 lg:px-8 flex flex-row items-center justify-between space-x-6">
+        <div class="flex flex-row  items-center h-20 space-x-4">
+
+            <div class="drawer w-12 md:hidden">
+                <input id="mobilebar" type="checkbox" class="drawer-toggle" />
+                <div class="drawer-content">
+                    <label for="mobilebar" class="btn drawer-button btn-ghost ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="my-1.5 inline-block size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </label>
+                </div>
+                <div class="drawer-side">
+                    <label for="mobilebar" aria-label="close sidebar" class="drawer-overlay"></label>
+                    <ul class="menu bg-base-200 min-h-full w-80 p-4">
+                        <li>
+                            <a class="{{ nav_anchor }}" href="{% url 'job:job_list' %}">
+                                {% trans "Find Jobs" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="{{ nav_anchor }}" href="{% url 'portfolio:talents'%}">
+                                {% trans "Talents" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="{{ nav_anchor }}" href="/#how-it-works">
+                                {% trans "How it works" %}
+                            </a>
+                        </li>
+                        <hr class="m-2">
+                        <li><a href="{% url 'about'%}">About Us</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <hr class="m-2">
+                        <li>
+                            <a href="{% url 'terms'%}">Terms of Service</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'privacy'%}">Privacy Policy</a>
+                        </li>
+                        <li class="mt-auto">
+                            <a href="{% url 'login-choose' %}" class="btn btn-primary">
+                                {% trans "Login"%}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% include "ui/logo.html" %}
+        </div>
+        {% with nav_anchor="nav-link text-sm font-semibold hover:text-primary transition-colors" %}
+        <ul class="hidden flex-1 md:flex flex-row items-center space-x-8 justify-center">
+            {% include 'ui/navigation/list.html' %}
+        </ul>
+        {% endwith %}
+        <div>
+            {% if request.user.is_authenticated %}
+            <div class="flex flex-row items-center space-x-6">
+                <a href="{% url 'core:notifications'%}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-6" viewBox="0 0 24 24">
+                        <path
+                            d="M5.25 9a6.75 6.75 0 0 1 13.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 0 1-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 1 1-7.48 0 24.585 24.585 0 0 1-4.831-1.244.75.75 0 0 1-.298-1.205A8.217 8.217 0 0 0 5.25 9.75V9Z" />
+                    </svg>
+                </a>
+
+                <a href="{% url 'message:message_list'%}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-6" viewBox="0 0 24 24">
+                        <path
+                            d="M12 3c5.322 0 9.75 3.97 9.75 9s-4.428 9-9.75 9c-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 0 1-4.246.997.75.75 0 0 1-.44-1.223 3.73 3.73 0 0 0 .814-1.686c-1.65-1.605-2.674-3.782-2.674-6.41 0-5.03 4.428-9 9.75-9Z" />
+                    </svg>
+                </a>
+
+                <button popovertarget="drop-links" style="anchor-name:--anchor-1">
+                    <div class="avatar">
+                        <div class="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                            <img src="{{request.user.profile_image}}" />
+                        </div>
+                    </div>
+                </button>
+            </div>
+            {% else %}
+            <a class="btn-glass-green" href="{% url 'login-choose' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <ul class="dropdown dropdown-end menu w-52 rounded-box bg-base-100 shadow-sm" popover id="drop-links"
+        style="position-anchor:--anchor-1">
+        <li><a href="{% url 'dashboard'%}">{% trans "Dashboard" %}</a></li>
+        <li><a href="{% url 'core:profile'%}">{% trans "Profile" %}</a></li>
+        <li><a href="{% url 'core:notifications'%}">{% trans "Notifications" %}</a></li>
+        <li><a href="{% url 'message:message_list'%}">{% trans "Messages" %}</a></li>
+        <li><a href="{% url 'portfolio:talents'%}">{% trans "Talents" %}</a></li>
+        <li><a href="{% url 'core:deactive'%}">{% trans "Settings" %}</a></li>
+        <li><a href="{% url 'socialaccount_connections'%}">{% trans "Connected account" %}</a></li>
+        
+        <hr class="m-2">
+        {% if user|has_group:"talent" %}
+        <li><a href="{% url 'portfolio:talent_details' request.user.public_id %}">{% trans "My Portfolio" %}</a>
+        </li>
+        <li><a href="{% url 'job:job_list' %}">{% trans "Find Jobs" %}</a></li>
+        <li><a href="{% url 'job:owned_applications' %}">{% trans "My Applications" %}</a></li>
+        {% endif %}
+
+        {% if user|has_group:"creator" or user|has_group:"company" %}
+        <li><a href="{% url 'job:owned_jobs'%}">{% trans "Manage Jobs" %}</a></li>
+        {% endif %}
+
+        {% if user|has_group:"creator" %}
+        <li><a href="{% url 'portfolio:my_points' %}">{% trans "My Points" %}</a></li>
+        <li><a href="{% url 'portfolio:verified_work'%}">{% trans "Verifed Work" %}</a></li>
+        {% endif %}
+
+        {% if user|has_group:"company" %}
+        <li><a href="{% url 'account_change_password' %}">{% trans "Reset Password" %}</a></li>
+        <li><a href="{% url 'company:company_profile'%}">{% trans "Manage Company" %}</a></li>
+        {% endif %}
+        <hr class="m-2">
+        <li class="my-4">
+            <a class="btn btn-error" href="{% url 'account_logout' %}">Logout</a>
+        </li>
+    </ul>
+
+</header>

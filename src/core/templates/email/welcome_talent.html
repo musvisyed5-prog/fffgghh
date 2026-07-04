@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<p>{% blocktrans with name=name %}Hi {{ name }},{% endblocktrans %}</p>
+
+<p>
+   {% trans "Welcome to Arclent — the only job board where your work speaks louder than your CV." %}
+</p>
+<p>
+     {% trans "You've taken the first step. Now here's what separates the profiles that get hired from the ones that get scrolled past:" %}
+</p>
+
+<h4> {% trans "Get verified" %}</h4>
+
+<p>
+    {% trans "Our recruitment team will review your profile and contact you if you are shortlisted." %}
+</p>
+
+<p>
+     {% trans "When a creator verifies the work you did with them, you earn a badge — and verified talent gets prioritized by recruiters over unverified profiles, every time." %}
+</p>
+
+<p>
+    {% trans "We'll take it from there." %}<br>
+    {% trans "----The Arclent Team" %}
+</p>

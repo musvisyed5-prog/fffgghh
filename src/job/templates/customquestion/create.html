@@ -1,0 +1,17 @@
+{% extends "customquestion/upsert_base.html" %}
+{% load i18n allauth%}
+
+{% block head_title %}
+{% trans "Add question" %}
+{% endblock head_title %}
+
+
+{% block extra_content %}
+    {% element h1 %} {% trans "Create Custom question" %}{%endelement%}
+    {% element p %} {% trans "Add custom questions for applicants to answer." %}{%endelement%}
+{% endblock extra_content %}
+
+{% block extra_form %}
+<button type="submit" class="btn btn-primary md:btn-lg mt-4">{% trans "Add questions" %}</button>
+<a href="{% url 'job:job_detail' job_id %}" class="btn btn-default btn-outline md:btn-lg mt-4">{% trans "Skip questions" %}</a>
+{% endblock extra_form %}

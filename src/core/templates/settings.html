@@ -1,0 +1,55 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth static %}
+
+{% block head_title %}
+{% trans "Settings" %}
+{% endblock head_title %}
+
+
+{% block content %}
+
+<main id="main">
+
+
+<section class="space-y-4">
+    {% element h1 %}
+    {% trans "Settings" %}
+    {% endelement %}
+    {% element p %}
+    {% trans "This page allows you to manage your account settings and security options. Please proceed with caution as some actions may be permanent." %}
+    {% endelement %}
+
+
+    <div role="alert" class="alert alert-error alert-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>
+            {% trans "Warning: Actions performed here may permanently affect your account." %}
+        </span>
+    </div>
+
+    {% url 'core:deactive' as deactive_url %}
+    {% element delete_form title="Deactivate Account" url=deactive_url name="Delete my account"%}{% endelement %}
+</section>
+
+<div class="divider">Language</div>
+
+
+<section id="language" class="space-y-4">
+    {% element h2 %}
+    {% trans "Change Language" %}
+    {% endelement %}
+    {% element p %}
+    {% trans "Select your preferred language to customize your experience." %}
+    {% endelement %}
+    {% include "forms/language.html" %}
+</section>
+
+</main>
+{% endblock content%}
+
+{% block extra_body %}
+<script src="{% static 'javascript/handlers.js' %}"></script>
+{% endblock extra_body %}

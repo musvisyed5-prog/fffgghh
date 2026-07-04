@@ -1,0 +1,66 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n static allauth %}
+
+{% block head_title %}
+{% trans "Converstations" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="hidden md:block">
+    {% element h1 %}
+    {% trans "Converstations" %}
+    {%endelement%}
+</div>
+
+<div class="grid md:grid-cols-3 grid-rows-1  h-[calc(100vh-18vh)] overflow-hidden">
+    <div class="hidden md:block">
+        {% include "components/list.html" %}
+    </div>
+    <div class="col-span-full md:col-span-2 w-full h-full relative">
+        <div class="w-full flex flex-row items-center space-x-4 mb-4 p-4" style="background: var(--comic-white); border-bottom: var(--comic-border);">
+            <a href="{% url 'message:message_list' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+
+            </a>
+            <div class="avatar">
+                <div class="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                    <img src="{{reciever.profile_image}}" />
+                </div>
+            </div>
+            <p class="text-lg font-bold text-left">{{reciever.first_name|title}} {{reciever.last_name}}</p>
+        </div>
+        <div class="h-[75%] overflow-y-auto">
+            {% for message in converstation.messages.all %}
+            <div class="chat {% if message.sender == request.user%} chat-end {% else %} chat-start {% endif %}">
+                <div class="chat-bubble"
+                    style="border: var(--comic-border-thin); box-shadow: 3px 3px 0 #000000; border-radius: var(--radius-comic-sm);
+                    {% if message.sender == request.user %}background: var(--comic-yellow); color: var(--comic-dark);{% else %}background: var(--comic-white); color: var(--comic-dark);{% endif %}">
+                    {{message.message}}
+                    <br />
+                    <span class="text-xs">
+                        {{message.date_created|timesince}} ago
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="px-4" style="background: var(--comic-white);">
+            <form action="{% url 'message:message_create' reciever.public_id %}" class="flex items-center space-x-4 mt-3" method="post">
+                {% csrf_token %}
+                <input type="text" class="input w-full" placeholder="Type something..." name="message" id="id_message" required autocomplete="off">
+                <button type="submit" class="btn btn-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

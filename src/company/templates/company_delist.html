@@ -1,0 +1,32 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}
+{% blocktrans with name=company.name|title %} De listing {{ name }}{% endblocktrans %}
+{% endblock head_title %}
+
+{% block content %}
+
+<main id="main" class="space-y-4">
+    {% element h1 %}
+    {% trans "Settings" %}
+    {% endelement %}
+    {% element p %}
+    {% trans "De listing company causes it to hide from public view but data is not deleted permanently" %}
+    {% endelement %}
+
+    <div role="alert" class="alert alert-error alert-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>
+            {% trans "Warning: Actions performed here may temporary affect your company ." %}
+        </span>
+    </div>
+
+    {% url 'company:company_delete' company.pk as company_delist_url %}
+    {% element delete_form title="Delist company" url=company_delist_url name=company.name%}{% endelement %}
+</main>
+
+{% endblock content %}

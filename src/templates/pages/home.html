@@ -1,0 +1,646 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n static %}
+
+
+
+{% block head_title %}
+{% trans "Arclent — Hire Creator Economy Talent You Can Actually Trust" %}
+{% endblock head_title %}
+
+{% block extra_head %}
+<link href="{% static 'css/landing.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+<!-- Fixed ambient background canvas -->
+<div class="landing-bg" aria-hidden="true"></div>
+
+{% include "ui/navigation/nav.html" %}
+
+<main id="main" class="landing-page">
+
+    <!-- ═══════════════════════════════════
+         HERO
+    ═══════════════════════════════════ -->
+    <section id="top" class="hero-section">
+        <!-- Floating orbs (hidden in comic mode) -->
+        <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+
+        <!-- Live badge -->
+        <div class="hero-badge">
+            <span class="ping-dot" aria-hidden="true"></span>
+            The Trust Infrastructure for the Creator Economy
+        </div>
+
+        <!-- Heading -->
+        <h1 class="hero-title">
+            Someone is <span class="gradient-text">stealing</span><br />
+            from both sides<br />
+            of every hire.
+        </h1>
+
+        <!-- Sub-headline -->
+        <p class="hero-subtitle">
+            A growing group of bad actors steal portfolios, fake credentials, and game the system — costing recruiters money and costing real talent the jobs they've earned. Arclent ends it.
+        </p>
+
+        <!-- Platform names -->
+        <p class="hero-platforms">
+            YouTube &nbsp;•&nbsp; Instagram &nbsp;•&nbsp; Twitch &nbsp;•&nbsp; Discord &nbsp;•&nbsp; Facebook
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-cta-group">
+            <a href="{% url 'choose-role' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"
+               class="btn-hero-primary" id="hero-hire-btn">
+                Get Early Access
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" /></svg>
+            </a>
+            <a href="#how"
+               class="btn-hero-secondary" id="hero-apply-btn">
+                See How It Works
+            </a>
+        </div>
+
+        <!-- Hero Stat Strip -->
+        <div class="hero-stat-strip fade-up">
+            <div class="hero-stat">
+                <span class="stat-num">76%</span>
+                <span class="stat-label">of freelancers report portfolio theft</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">$3.4K</span>
+                <span class="stat-label">avg recruiter cost per bad hire</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">1 in 3</span>
+                <span class="stat-label">creator economy hires fail within 60 days</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         PLATFORM TRUST STRIP
+    ═══════════════════════════════════ -->
+    <div class="platform-strip">
+        <div class="platform-strip-inner">
+            <p class="platform-strip-label">{% trans "Trusted by creators & companies on" %}</p>
+            <div class="platform-logos">
+
+                <div class="platform-logo-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                    </svg>
+                    YouTube
+                </div>
+
+                <div class="platform-logo-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                    </svg>
+                    Instagram
+                </div>
+
+                <div class="platform-logo-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M3.857 0 1 2.857v10.286h3.429V16l2.857-2.857H9.57L14.714 8V0zm9.714 7.429-2.285 2.285H9l-2 2v-2H4.429V1.143h9.142z"/>
+                        <path d="M11.857 3.143h-1.143V6.57h1.143zm-3.143 0H7.571V6.57h1.143z"/>
+                    </svg>
+                    Twitch
+                </div>
+
+                <div class="platform-logo-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                    </svg>
+                    Discord
+                </div>
+
+                <div class="platform-logo-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                    </svg>
+                    Facebook
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         VILLAIN SECTION
+    ═══════════════════════════════════ -->
+    <section class="villain-section">
+        <p class="section-label">The Real Problem</p>
+        <h2 class="villain-intro fade-up">
+            There's a group that doesn't create.<br />
+            Doesn't hire. Doesn't build.<br />
+            They just <em>steal</em> — from both of you.
+        </h2>
+
+        <div class="dual-cards">
+            <div class="story-card recruiter fade-up">
+                <div class="card-role recruiter">
+                    <span class="role-dot"></span>
+                    If you're a Recruiter
+                </div>
+                <p class="card-scene">
+                    "You posted a job. 847 people applied.<br />
+                    You hired the best portfolio.<br />
+                    Three weeks later — none of it was their work."
+                </p>
+                <p class="card-body">
+                    There's a group of people who have made a business out of <strong>stealing other creators' work</strong>, packaging it as their own, and landing your contracts. They look brilliant in a portfolio review. They cost you real money — wasted retainer, delayed projects, angry clients.
+                    <br /><br />
+                    They're not rare. They're organised. And your current hiring process <strong>can't tell them apart</strong> from real talent.
+                </p>
+                <div class="card-villain-line">
+                    ⚠ The fake portfolio applicant is your most expensive mistake.
+                </div>
+                <div class="card-resolution">
+                    <strong>On Arclent</strong>, every candidate has been verified by the creator they actually worked with — using our badge system. If the creator can't confirm the work, the candidate doesn't get the badge. You only see people who've <em>proven</em> it.
+                </div>
+            </div>
+
+            <div class="story-card talent fade-up delay-1">
+                <div class="card-role talent">
+                    <span class="role-dot"></span>
+                    If you're Talent
+                </div>
+                <p class="card-scene">
+                    "You spent 2 years building real work.<br />
+                    Someone screenshotted it in 20 minutes.<br />
+                    They got the job you applied for."
+                </p>
+                <p class="card-body">
+                    There's a group of people who don't build anything. They crawl YouTube, steal thumbnails, swipe video edits, copy strategy decks — then apply for roles you're qualified for. They underbid you. They dilute the market. They land jobs using <strong>your creative work.</strong>
+                    <br /><br />
+                    That's not competition. That's theft. And right now, recruiters <strong>have no way to know the difference.</strong>
+                </p>
+                <div class="card-villain-line">
+                    ⚠ Every fake applicant is taking a job that should be yours.
+                </div>
+                <div class="card-resolution">
+                    <strong>On Arclent</strong>, your work comes with a verification stamp that can't be faked — because the creator who hired you confirms it was yours. Your real portfolio finally stands apart from the noise.
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         UNIFYING STRIP
+    ═══════════════════════════════════ -->
+    <div class="unify-strip">
+        <p class="unify-big">
+            "Fake portfolios rob recruiters.<br />
+            Stolen work robs talent.<br />
+            Same villain. One fix."
+        </p>
+        <p class="unify-sub">Arclent — Building the trust infrastructure the creator economy was always missing</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         HOW IT WORKS
+    ═══════════════════════════════════ -->
+    <section class="hiw-section" id="how">
+
+        <p class="section-eyebrow">{% trans "The Process" %}</p>
+        <h2 class="section-title">{% trans "Verification that actually means something." %}</h2>
+        <p class="section-desc">
+            Not self-reported. Not AI-checked. Confirmed by the creator who hired you — the only person who actually knows.
+        </p>
+
+        <!-- Tabs -->
+        <div class="hiw-tabs-glass" id="hiw-tabs" role="tablist">
+            <button class="hiw-tab-btn active" onclick="switchFlow('talent', this)" role="tab" aria-selected="true" aria-controls="flow-talent" id="tab-talent">
+                I'm a Creator
+            </button>
+            <button class="hiw-tab-btn" onclick="switchFlow('recruiter', this)" role="tab" aria-selected="false" aria-controls="flow-recruiter" id="tab-recruiter">
+                I'm a Recruiter
+            </button>
+        </div>
+
+        <!-- Talent flow -->
+        <div class="hiw-flow active" id="flow-talent" role="tabpanel" aria-labelledby="tab-talent">
+            <div class="hiw-banner hiw-banner-talent">✦ Creator / Talent Journey</div>
+            <div class="hiw-cards-grid">
+
+                <div class="hiw-card fade-up">
+                    <span class="hiw-step-number">01</span>
+                    <img src="{% static 'assests/3d/1.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Connect Your Channels</h3>
+                    <p>Sign up and link your YouTube, Twitch, X, Vimeo, Pinterest, or LinkedIn via secure OAuth. One click — no passwords shared.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-1">
+                    <span class="hiw-step-number">02</span>
+                    <img src="{% static 'assests/3d/2.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Get Verified</h3>
+                    <p>A magic link goes to the creator you worked with. They confirm the collaboration — you earn a badge. No creator confirmation = no badge.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-2">
+                    <span class="hiw-step-number">03</span>
+                    <img src="{% static 'assests/3d/3.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Apply or Get Discovered</h3>
+                    <p>Browse job listings and send proposals directly to recruiters. Or let your verified profile do the work — recruiters with Pro accounts can find and approach you.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-3">
+                    <span class="hiw-step-number">04</span>
+                    <img src="{% static 'assests/3d/4.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Land the Job</h3>
+                    <p>Your badge tier tells recruiters exactly what you're worth — no more being overlooked. Diamond creators get seen first. Get hired for work that matches your real skills.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Recruiter flow -->
+        <div class="hiw-flow" id="flow-recruiter" role="tabpanel" aria-labelledby="tab-recruiter">
+            <div class="hiw-banner hiw-banner-recruiter">✦ Recruiter Journey</div>
+            <div class="hiw-cards-grid">
+
+                <div class="hiw-card fade-up">
+                    <span class="hiw-step-number hiw-step-number-amber">01</span>
+                    <img src="{% static 'assests/3d/5.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Post Your Job</h3>
+                    <p>Create a listing in minutes. Describe the role, set your budget, specify the creator tier you need (e.g. Gold+), and publish — free for your first month.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-1">
+                    <span class="hiw-step-number hiw-step-number-amber">02</span>
+                    <img src="{% static 'assests/3d/6.png' %}" alt="" class="hiw-card-icon">
+                    <h3>AI Matches Talent</h3>
+                    <p>Arclent's AI scans verified profiles and surfaces candidates that genuinely match your brief — by niche, badge tier, platform, audience size, and more.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-2">
+                    <span class="hiw-step-number hiw-step-number-amber">03</span>
+                    <img src="{% static 'assests/3d/7.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Review Proposals</h3>
+                    <p>Creators apply directly to your listing with verified portfolios. Every applicant's metrics and work have already been authenticated — no guesswork, no fakes.</p>
+                </div>
+
+                <div class="hiw-card fade-up delay-3">
+                    <span class="hiw-step-number hiw-step-number-amber">04</span>
+                    <img src="{% static 'assests/3d/8.png' %}" alt="" class="hiw-card-icon">
+                    <h3>Hire with Confidence</h3>
+                    <p>Browse verified talent, post jobs, and filter by badge tier. Every shortlisted candidate has proven work history. Zero guesswork.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         BADGE TIERS (TIERS SECTION)
+    ═══════════════════════════════════ -->
+    <section class="tiers-section" id="tiers">
+        <div class="tiers-inner">
+            <div class="tiers-text fade-up">
+                <p class="section-label">Verification Tiers</p>
+                <h2 class="section-headline">The more verified,<br />the more trusted.</h2>
+                <p class="section-desc" style="margin-bottom: 0;">Every badge requires a real creator to confirm the work. The higher the tier, the stronger the signal for recruiters — and the better the visibility for talent.</p>
+                <div class="tier-list">
+                    <div class="tier-item">
+                        <div class="tier-gem"><img src="https://i.ibb.co/7xZgXxH5/Untitled-design.png" alt="Bronze Badge" class="tier-gem-img"></div>
+                        <div class="tier-info">
+                            <div class="tier-name">Bronze</div>
+                            <div class="tier-desc">1 verified creator collaboration</div>
+                        </div>
+                        <span class="tier-pill" style="background:rgba(205,127,50,0.15);color:#92400e;">Entry</span>
+                    </div>
+                    <div class="tier-item">
+                        <div class="tier-gem"><img src="https://i.ibb.co/h11VN3Wb/Untitled-designf.png" alt="Silver Badge" class="tier-gem-img"></div>
+                        <div class="tier-info">
+                            <div class="tier-name">Silver</div>
+                            <div class="tier-desc">3+ verified collaborations</div>
+                        </div>
+                        <span class="tier-pill" style="background:rgba(100,116,139,0.15);color:#475569;">Growing</span>
+                    </div>
+                    <div class="tier-item">
+                        <div class="tier-gem"><img src="https://i.ibb.co/WNLWw5gC/Untitled-design.gif" alt="Gold Badge" class="tier-gem-img"></div>
+                        <div class="tier-info">
+                            <div class="tier-name">Gold</div>
+                            <div class="tier-desc">5+ verified collaborations</div>
+                        </div>
+                        <span class="tier-pill" style="background:rgba(234,179,8,0.2);color:#b45309;">Established</span>
+                    </div>
+                    <div class="tier-item">
+                        <div class="tier-gem"><img src="https://i.ibb.co/jZTWzHR4/Untitled-designhh.gif" alt="Diamond Badge" class="tier-gem-img"></div>
+                        <div class="tier-info">
+                            <div class="tier-name">Diamond</div>
+                            <div class="tier-desc">Top-tier multi-creator verification</div>
+                        </div>
+                        <span class="tier-pill" style="background:rgba(14,165,233,0.15);color:#0369a1;">Elite</span>
+                    </div>
+                    <div class="tier-item" style="border-color: #ef4444;">
+                        <div class="tier-gem"><img src="https://i.ibb.co/twbYLQjz/Untitled-designwww.gif" alt="Red Diamond Badge" class="tier-gem-img"></div>
+                        <div class="tier-info">
+                            <div class="tier-name">Red Diamond</div>
+                            <div class="tier-desc">Highest trust. Rarest tier.</div>
+                        </div>
+                        <span class="tier-pill" style="background:rgba(239,68,68,0.15);color:#b91c1c;">Legendary</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trust-visual fade-up delay-1">
+                <div class="trust-cell" style="grid-column: span 2;">
+                    <div class="trust-cell-label">What Recruiters Get</div>
+                    <div class="trust-cell-headline">Filter by badge tier. Every candidate shown has been verified by a real creator.</div>
+                    <span class="trust-cell-tag" style="background:rgba(251,191,36,0.2);color:#92400e;">No fake portfolios · No guesswork</span>
+                </div>
+                <div class="trust-cell">
+                    <div class="trust-cell-label">Free Recruiter Access</div>
+                    <div class="trust-cell-headline">Browse Bronze → Gold talent</div>
+                    <span class="trust-cell-tag" style="background:rgba(34,197,94,0.15);color:#047857;">Free tier</span>
+                </div>
+                <div class="trust-cell">
+                    <div class="trust-cell-label">Pro Recruiter Access</div>
+                    <div class="trust-cell-headline">Unlock Diamond + Red Diamond talent</div>
+                    <span class="trust-cell-tag" style="background:rgba(249,115,22,0.15);color:#c2410c;">$149/mo</span>
+                </div>
+                <div class="trust-cell">
+                    <div class="trust-cell-label">Talent Benefit</div>
+                    <div class="trust-cell-headline">Higher badge = more visibility to hiring companies</div>
+                    <span class="trust-cell-tag" style="background:rgba(0,0,0,0.05);color:#333;">Free to earn</span>
+                </div>
+                <div class="trust-cell">
+                    <div class="trust-cell-label">Patent-Pending</div>
+                    <div class="trust-cell-headline">Verification system protected by provisional patent</div>
+                    <span class="trust-cell-tag" style="background:rgba(0,0,0,0.05);color:#555;">Proprietary tech</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         FOR TALENT / FOR RECRUITERS
+    ═══════════════════════════════════ -->
+    <div class="for-section" id="for-talent">
+
+        <!-- Panel: Talent -->
+        <div class="for-panel for-panel-talent">
+            <span class="for-tag for-tag-talent">For Talent</span>
+            <h2 class="for-title">YOUR WORK SPEAKS.<br />WE PROVE IT.</h2>
+            <p class="for-desc">
+                Stop sending portfolios that get ignored. Your Arclent profile is a verified proof of your work — every view count, every video, every metric, confirmed real.
+            </p>
+
+            <ul class="for-list">
+                <li>
+                    <span class="for-check for-check-talent">✓</span>
+                    AI-verified badge that recruiters trust instantly
+                </li>
+                <li>
+                    <span class="for-check for-check-talent">✓</span>
+                    Apply to jobs with one-click proposals
+                </li>
+                <li>
+                    <span class="for-check for-check-talent">✓</span>
+                    AI-written cover letters tailored to each listing
+                </li>
+                <li>
+                    <span class="for-check for-check-talent">✓</span>
+                    Pinned portfolio videos front and center
+                </li>
+                <li>
+                    <span class="for-check for-check-talent">✓</span>
+                    Priority verification — faster badge approval
+                </li>
+            </ul>
+
+            <a href="#" class="btn-glass-green" id="join-creator-btn">
+                Join as a Creator
+            </a>
+        </div>
+
+        <!-- Panel: Recruiters -->
+        <div class="for-panel for-panel-recruiter">
+            <span class="for-tag for-tag-recruiter">For Recruiters</span>
+            <h2 class="for-title">FIND REAL TALENT.<br />ZERO GUESSWORK.</h2>
+            <p class="for-desc">
+                Every candidate you see on Arclent has been independently verified. Stop wasting time on inflated follower counts and unverifiable portfolios.
+            </p>
+
+            <ul class="for-list">
+                <li>
+                    <span class="for-check for-check-recruiter">✓</span>
+                    AI-matched talent suggestions for your brief
+                </li>
+                <li>
+                    <span class="for-check for-check-recruiter">✓</span>
+                    Browse verified Diamond and Red Diamond creators
+                </li>
+                <li>
+                    <span class="for-check for-check-recruiter">✓</span>
+                    Receive inbound proposals from motivated talent
+                </li>
+                <li>
+                    <span class="for-check for-check-recruiter">✓</span>
+                    Featured job listings for premium visibility
+                </li>
+                <li>
+                    <span class="for-check for-check-recruiter">✓</span>
+                    Global talent pool — India, US, UK, and Gulf
+                </li>
+            </ul>
+
+            <a href="#" class="btn-glass-outline" id="post-job-btn">
+                Post Your First Job
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         LAUNCH OFFER BANNER
+    ═══════════════════════════════════ -->
+    <div class="launch-banner">
+        <div class="launch-banner-content">
+            <span class="launch-pill">Launch Offer</span>
+            <span class="launch-text">
+                Everything on Arclent is&nbsp;
+                <span class="accent">completely free for your first month</span>
+                &nbsp;— no credit card required.
+            </span>
+            <span class="launch-sub">After that, stay free or upgrade to unlock more.</span>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════
+         TRENDING JOBS
+    ═══════════════════════════════════ -->
+    <section class="jobs-section">
+        <div class="jobs-header">
+            <div>
+                <h2>{% trans "Trending Jobs" %}</h2>
+                <p>{% trans "The most sought-after roles in social media right now." %}</p>
+            </div>
+            <a class="view-all-link" href="{% url 'job:job_list' %}">
+                {% trans "View all jobs" %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+        <div class="jobs-grid" id="trending-jobs-grid">
+            <!-- Job cards will be rendered here by existing Django logic if any, or left empty -->
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         PRICING
+    ═══════════════════════════════════ -->
+    <section class="pricing-section" id="pricing">
+        <div class="pricing-header fade-up">
+            <p class="section-label" style="justify-content:center;display:flex;">Simple Pricing</p>
+            <h2 class="section-headline" style="max-width:600px;margin:0.75rem auto 1rem;text-align:center;">Talent is free.<br />Recruiters pay for trust.</h2>
+            <p class="section-desc" style="margin:0 auto;text-align:center;">Real talent shouldn't pay to prove themselves. Recruiters pay for the certainty that saves them thousands.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="price-card fade-up">
+                <div class="price-role">For Talent</div>
+                <div class="price-plan">Free</div>
+                <div class="price-amount"><span class="price-num">₹0</span><span class="price-period">/forever</span></div>
+                <div class="price-note">Build your verified profile at zero cost</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Create your verified profile</li>
+                    <li>Request verification from creators you've worked with</li>
+                    <li>Earn Bronze, Silver &amp; Gold badges</li>
+                    <li>Apply to creator economy jobs</li>
+                    <li>Visible to all recruiters on the platform</li>
+                </ul>
+                <a href="#final" class="price-btn price-btn-outline">Join as Talent →</a>
+            </div>
+
+            <div class="price-card fade-up delay-1">
+                <div class="price-role">For Talent</div>
+                <div class="price-plan">Pro</div>
+                <div class="price-amount"><span class="price-currency">₹</span><span class="price-num">149</span><span class="price-period">/month</span></div>
+                <div class="price-note">For talent serious about standing out</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Everything in Free</li>
+                    <li>Priority visibility in search results</li>
+                    <li>Diamond &amp; Red Diamond badge eligibility</li>
+                    <li>Advanced analytics on profile views</li>
+                    <li>Featured in recruiter discovery emails</li>
+                </ul>
+                <a href="#final" class="price-btn price-btn-outline">Upgrade to Pro →</a>
+            </div>
+
+            <div class="price-card fade-up delay-2">
+                <div class="price-role">For Recruiters</div>
+                <div class="price-plan">Free</div>
+                <div class="price-amount"><span class="price-num">$0</span><span class="price-period">/month</span></div>
+                <div class="price-note">Start hiring with 1 free job/month</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>1 free job posting per month</li>
+                    <li>Access Bronze → Gold verified talent</li>
+                    <li>Basic candidate filtering</li>
+                    <li>Verified portfolio previews</li>
+                </ul>
+                <a href="#final" class="price-btn price-btn-outline">Start Free →</a>
+            </div>
+
+            <div class="price-card featured fade-up delay-3">
+                <div class="price-role">For Recruiters</div>
+                <div class="price-plan">Pro</div>
+                <div class="price-amount"><span class="price-currency">$</span><span class="price-num">149</span><span class="price-period">/month</span></div>
+                <div class="price-note">Unlimited access to all verified talent</div>
+                <div class="price-divider"></div>
+                <ul class="price-features">
+                    <li>Unlimited job postings</li>
+                    <li>Full access — all badge tiers including Diamond &amp; Red Diamond</li>
+                    <li>Advanced filters (niche, tier, region, skills)</li>
+                    <li>Featured job add-ons available</li>
+                    <li>Priority candidate matching</li>
+                    <li>Dedicated support</li>
+                </ul>
+                <a href="#final" class="price-btn price-btn-red">Get Recruiter Pro →</a>
+            </div>
+        </div>
+
+        <p style="text-align:center;margin-top:2rem;font-family:var(--font-header);font-size:0.75rem;color:#555;letter-spacing:0.05em;font-weight:700;">
+            Featured job add-ons: $29 / 7 days &nbsp;·&nbsp; $49 / 14 days &nbsp;·&nbsp; $99 / 30 days
+        </p>
+    </section>
+
+
+    <!-- ═══════════════════════════════════
+         FINAL CTA
+    ═══════════════════════════════════ -->
+    <section class="final-cta" id="final">
+        <p class="section-label" style="justify-content:center;display:flex;margin-bottom:1.5rem;">Early Access</p>
+        <h2 class="final-headline fade-up">
+            The creator economy<br />
+            finally has a<br />
+            <em>trust layer.</em>
+        </h2>
+        <p class="final-sub fade-up">Join the waitlist. Be first in. Help shape the platform.</p>
+        <div class="final-actions fade-up">
+            <a href="{% url 'choose-role' %}" class="btn-hero-primary" id="final-recruiter-btn">I'm a Recruiter — Get Access</a>
+            <a href="{% url 'core:oauth_login' 'talent' %}" class="btn-hero-secondary" id="final-talent-btn">I'm Talent — Join Free</a>
+        </div>
+    </section>
+
+</main>
+
+{% include 'ui/navigation/footer.html' %}
+
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    /* ── Tab switching ─────────────────────────── */
+    function switchFlow(role, btn) {
+        document.querySelectorAll('#hiw-tabs .hiw-tab-btn').forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.hiw-flow').forEach(f => f.classList.remove('active'));
+        const panel = document.getElementById('flow-' + role);
+        if (panel) {
+            panel.classList.add('active');
+            // Re-trigger fade-up animations
+            panel.querySelectorAll('.fade-up').forEach(el => {
+                el.classList.remove('visible');
+                requestAnimationFrame(() => observer.observe(el));
+            });
+        }
+    }
+
+    /* ── IntersectionObserver for fade-up ──────── */
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+{% endblock extra_body %}

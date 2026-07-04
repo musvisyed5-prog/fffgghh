@@ -1,0 +1,605 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+
+
+{% block head_title %}
+{% trans "Privacy Policy" %}
+{% endblock head_title %}
+
+{% block content %}
+
+<body class="text-base-content" style="background: var(--comic-cream);" data-theme="ARCLENT">
+
+    <div class="max-w-3xl mx-auto px-6 py-12 pb-20">
+
+        <!-- Top bar -->
+        <div class="flex items-center justify-between mb-14 pb-5" style="border-bottom: var(--comic-border);">
+            <a href="https://arclent.co" class="text-lg font-bold tracking-tight" style="color: var(--comic-orange);">
+                Arclent<span class="text-base-content font-normal">.co</span>
+            </a>
+            <span class="badge badge-outline uppercase text-[11px] font-semibold tracking-wide">Legal</span>
+        </div>
+
+        <!-- Hero -->
+        <div class="mb-12">
+            <h1 class="section-title text-4xl leading-tight mb-3">
+                Privacy <span style="color: var(--comic-orange);">Policy</span>
+            </h1>
+            <p class="text-sm text-base-content/50">
+                Effective date: <span class="text-base-content/70">June 2025</span>
+                &nbsp;·&nbsp;
+                Last updated: <span class="text-base-content/70">June 2026</span>
+            </p>
+        </div>
+
+        <!-- Table of contents -->
+        <div class="comic-panel mb-14">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-base-content/50 mb-3">Contents</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 gap-x-6">
+                <a href="#s01" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Who we are</a>
+                <a href="#s02" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Information we collect</a>
+                <a href="#s03" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>How we use your information</a>
+                <a href="#s04" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>OAuth &amp; platform verification
+                    data</a>
+                <a href="#s05" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Data sharing</a>
+                <a href="#s06" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Data retention &amp; deletion</a>
+                <a href="#s07" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Cookies</a>
+                <a href="#s08" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Your rights</a>
+                <a href="#s09" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Children's privacy</a>
+                <a href="#s10" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Changes to this policy</a>
+                <a href="#s11" class="flex items-center gap-2 text-sm text-base-content/70 hover:text-primary py-0.5">
+                    <span class="w-1 h-1 rounded-full bg-primary/40 shrink-0"></span>Contact</a>
+            </div>
+        </div>
+
+        <!-- 01 Who we are -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s01">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">01</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Who we are</h2>
+            <p class="text-base-content/70 mb-3">Arclent (OPC) Private Limited ("Arclent", "we", "our", "us") operates
+                arclent.co — a verified talent marketplace for the creator economy. We connect creator economy talent
+                (video editors, thumbnail artists, scriptwriters, community managers) with recruiters globally.</p>
+            <p class="text-base-content/70">This policy explains what data we collect, why we collect it, and how we
+                protect it. By using Arclent, you agree to the practices described here.</p>
+        </div>
+
+        <!-- 02 Information we collect -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s02">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">02</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Information we collect</h2>
+            <p class="text-base-content/70 mb-3">We collect information you provide directly (account registration,
+                profile creation, job applications), information generated through your use of the platform (proposals
+                sent, jobs posted, messages), and — for talent who connect a social or content platform — information
+                from OAuth services (described fully in Section 04).</p>
+            <p class="text-base-content/70">We also collect standard technical data: IP address, browser type, device
+                identifiers, and page interaction data, used for security and to improve the platform.</p>
+        </div>
+
+        <!-- 03 How we use your information -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s03">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">03</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">How we use your information</h2>
+            <p class="text-base-content/70 mb-3">We use your information to: operate and improve the platform, verify
+                talent credentials and assign verification badges, match talent with relevant job opportunities, process
+                payments, send transactional and account-related emails, and comply with applicable law.</p>
+            <p class="text-base-content/70">We do not sell your personal data. We do not use your data for advertising.
+                We do not use your data to train AI or machine-learning models.</p>
+        </div>
+
+        <!-- 04 OAuth & platform verification data -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s04">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">04</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">OAuth &amp; platform verification data</h2>
+            <p class="text-base-content/70 mb-3">Talent on Arclent can connect one or more content platforms to verify
+                their work history and earn verification badges. We use OAuth 2.0 to request read-only access — we never
+                ask for permission to post, message, or take any action on your behalf.</p>
+            <p class="text-base-content/70 mb-5">Select a platform below to see exactly what data we request and why:
+            </p>
+
+            <!-- Tabs -->
+            <div role="tablist" class="tabs tabs-box mb-5 flex-wrap gap-1.5 bg-transparent p-0">
+                <a role="tab" class="ptab tab tab-active" data-target="youtube"
+                    onclick="showPanel('youtube', this)">YouTube</a>
+                <a role="tab" class="ptab tab" data-target="twitch" onclick="showPanel('twitch', this)">Twitch</a>
+                <a role="tab" class="ptab tab" data-target="discord" onclick="showPanel('discord', this)">Discord</a>
+                <a role="tab" class="ptab tab" data-target="instagram"
+                    onclick="showPanel('instagram', this)">Instagram</a>
+                <a role="tab" class="ptab tab" data-target="facebook" onclick="showPanel('facebook', this)">Facebook</a>
+            </div>
+
+            <div class="comic-panel">
+
+                <!-- YouTube -->
+                <div class="platform-panel" id="panel-youtube">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-field flex items-center justify-center text-lg bg-red-500/10">▶
+                        </div>
+                        <div>
+                            <div class="font-bold">YouTube</div>
+                            <div class="text-xs text-base-content/40">Google API Services · OAuth 2.0</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            ✉</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Email address</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to create and identify your
+                                Arclent account, and to send account-related notifications via Brevo.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            👤</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Basic profile (name, photo)</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to populate your Arclent
+                                profile so recruiters can identify you.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📺</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">YouTube channel data — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Channel ID, channel name, and
+                                public channel statistics. Used to confirm you own the channel you are verifying and to
+                                display verification badges on your profile.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📊</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">YouTube channel analytics — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Subscriber count and view counts
+                                on public videos. Used to support our verification system and to display credibility
+                                signals (badge tiers) to recruiters.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Twitch -->
+                <div class="platform-panel hidden" id="panel-twitch">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-field flex items-center justify-center text-lg bg-purple-500/10">🎮
+                        </div>
+                        <div>
+                            <div class="font-bold">Twitch</div>
+                            <div class="text-xs text-base-content/40">Twitch API · OAuth 2.0</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            👤</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Basic profile (username, display name, profile
+                                image)</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to identify you and populate
+                                your Arclent profile.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📺</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Channel data — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Channel ID and public channel
+                                information. Used to confirm you are the legitimate owner of the Twitch channel you are
+                                verifying.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📊</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Channel analytics — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Follower count and public stream
+                                statistics. Used to support badge-tier assignment and to display credibility signals to
+                                recruiters.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discord -->
+                <div class="platform-panel hidden" id="panel-discord">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-field flex items-center justify-center text-lg bg-indigo-500/10">💬
+                        </div>
+                        <div>
+                            <div class="font-bold">Discord</div>
+                            <div class="text-xs text-base-content/40">Discord API · OAuth 2.0</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            ✉</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Email address</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to create and identify your
+                                Arclent account, and to send account-related notifications via Brevo.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            👤</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Basic profile (username, avatar)</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to identify you and populate
+                                your Arclent profile.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📊</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Server/community data — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Public server membership and
+                                community management credentials. Used to verify your role as a community manager and to
+                                support badge assignment.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instagram -->
+                <div class="platform-panel hidden" id="panel-instagram">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-field flex items-center justify-center text-lg bg-pink-500/10">📸
+                        </div>
+                        <div>
+                            <div class="font-bold">Instagram</div>
+                            <div class="text-xs text-base-content/40">Instagram Graph API (via Meta) · OAuth 2.0</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            👤</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Basic profile (name, profile picture, username)
+                            </div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to identify you and populate
+                                your Arclent profile.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📺</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Account data — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Account ID and public account
+                                information. Used to confirm you own the Instagram account you are verifying.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📊</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Account analytics — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Follower count and public post
+                                statistics. Used to support badge-tier assignment and to display credibility signals to
+                                recruiters.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Facebook -->
+                <div class="platform-panel hidden" id="panel-facebook">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-field flex items-center justify-center text-lg bg-blue-500/10">👍
+                        </div>
+                        <div>
+                            <div class="font-bold">Facebook</div>
+                            <div class="text-xs text-base-content/40">Meta Graph API · OAuth 2.0</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            👤</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Basic profile (name, profile picture)</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Used to identify you and populate
+                                your Arclent profile.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3 border-b border-base-300">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📺</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Page/account data — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Page ID and public page
+                                information. Used to confirm you are the legitimate owner or administrator of the
+                                Facebook page you are verifying.</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3.5 py-3">
+                        <div
+                            class="w-8 h-8 rounded-field bg-primary/10 border border-primary/20 flex items-center justify-center text-sm shrink-0">
+                            📊</div>
+                        <div>
+                            <div class="text-sm font-semibold mb-0.5">Page analytics — read-only</div>
+                            <div class="text-sm text-base-content/60 leading-relaxed">Follower count and public
+                                engagement statistics. Used to support badge-tier assignment and to display credibility
+                                signals to recruiters.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Highlight: never access -->
+            <div role="alert"
+                class="alert mt-5 bg-primary/5 border border-primary/15 border-l-4 border-l-primary rounded-r-field rounded-l-none items-start">
+                <span class="text-sm text-base-content/70"><strong class="font-semibold text-base-content">What we never
+                        access across all platforms:</strong> Private messages, direct messages, contacts, browsing
+                    history, or any data unrelated to identity and channel/account verification. We never post, like,
+                    follow, or take any action on your behalf.</span>
+            </div>
+
+            <p class="font-semibold mt-6 mb-2">How this data is used</p>
+            <p class="text-base-content/70 mb-4">Platform data accessed via OAuth is used exclusively to: (1) verify
+                your identity and account ownership, (2) assign verification badges (Bronze through Red Diamond tiers),
+                and (3) display your public verification status to recruiters on the platform.</p>
+
+            <div class="flex flex-wrap gap-2 mb-6">
+                <span class="badge badge-success badge-outline">✓ Identity verification</span>
+                <span class="badge badge-success badge-outline">✓ Badge assignment</span>
+                <span class="badge badge-success badge-outline">✓ Recruiter visibility</span>
+                <span class="badge badge-error badge-outline">✗ Advertising</span>
+                <span class="badge badge-error badge-outline">✗ AI/ML training</span>
+                <span class="badge badge-error badge-outline">✗ Sold to third parties</span>
+            </div>
+
+            <p class="font-semibold mb-2">Sharing of OAuth platform data</p>
+            <p class="text-base-content/70 mb-4">Platform data obtained via OAuth is not sold or shared with third
+                parties for commercial purposes. It is processed by two infrastructure providers strictly to operate the
+                platform:</p>
+
+            <div class="comic-panel mb-4">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Railway (hosting)</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Hosts the Arclent
+                        application and database. Processes all user data solely to run the platform, under a data
+                        processing agreement prohibiting any other use.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Brevo (email)</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Processes your email address
+                        to send transactional emails (verification notices, account alerts). Brevo does not use your
+                        email for its own marketing or share it onward.</div>
+                </div>
+            </div>
+
+            <p class="text-base-content/70 mb-4">No other third party accesses your platform data. We do not share it
+                with advertisers, data brokers, or analytics platforms.</p>
+
+            <p class="font-semibold mb-2">Storage &amp; security</p>
+            <p class="text-base-content/70 mb-4">OAuth tokens and platform data are encrypted in transit (TLS) and at
+                rest. Access is restricted to authorised Arclent personnel on a strict need-to-know basis. We do not
+                store OAuth refresh tokens beyond what is necessary to maintain your verified status.</p>
+
+            <p class="font-semibold mb-2">Retention &amp; deletion</p>
+            <p class="text-base-content/70 mb-4">We retain platform data only as long as your account is active and your
+                verification status needs to be maintained. If you disconnect a platform account or delete your Arclent
+                account, all associated platform data is permanently deleted within 30 days. You can request earlier
+                deletion at any time by emailing <span class="text-primary">privacy@arclent.co</span>.</p>
+
+            <p class="text-base-content/70">Arclent's use of data received from Google APIs adheres to the <a
+                    href="https://developers.google.com/terms/api-services-user-data-policy"
+                    class="text-primary hover:underline">Google API Services User Data Policy</a>, including the Limited
+                Use requirements.</p>
+        </div>
+
+        <!-- 05 Data sharing -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s05">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">05</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Data sharing</h2>
+            <p class="text-base-content/70 mb-4">We do not sell your personal data. We share data only in the following
+                limited circumstances:</p>
+            <div class="comic-panel">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Public profiles</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Your Arclent profile (name,
+                        verification badges, portfolio) is visible to recruiters on the platform. You control what
+                        information you add to your profile.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">OAuth platform data</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Shared only with Railway
+                        (hosting) and Brevo (email). See Section 04 for full detail.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Payment processors</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Payment information is
+                        processed by our payment provider. We do not store card details ourselves.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Legal compliance</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">We may disclose information
+                        if required by law, court order, or to protect the rights and safety of Arclent users.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Business transfers</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">In the event of a merger or
+                        acquisition, user data may be transferred. We will notify affected users in advance.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 06 Data retention & deletion -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s06">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">06</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Data retention &amp; deletion</h2>
+            <p class="text-base-content/70 mb-4">We retain data only as long as necessary to provide the service and
+                comply with legal obligations.</p>
+            <div class="comic-panel mb-5">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Active account data</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Retained while your account
+                        is active.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">OAuth platform data</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Deleted within 30 days of
+                        account deletion or platform disconnection. See Section 04.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3 border-b border-base-300">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Deleted account data</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">Removed within 30 days of
+                        account deletion, except where legally required to retain.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2 py-3">
+                    <div class="text-sm font-semibold shrink-0 sm:min-w-40">Financial records</div>
+                    <div class="text-sm text-base-content/60 leading-relaxed sm:text-right">May be retained for up to 7
+                        years for legal and accounting compliance.</div>
+                </div>
+            </div>
+            <div role="alert"
+                class="alert bg-primary/5 border border-primary/15 border-l-4 border-l-primary rounded-r-field rounded-l-none items-start">
+                <span class="text-sm text-base-content/70">To request deletion of your data at any time, email <strong
+                        class="font-semibold text-base-content">privacy@arclent.co</strong>. We will respond within 30
+                    days.</span>
+            </div>
+        </div>
+
+        <!-- 07 Cookies -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s07">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">07</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Cookies</h2>
+            <p class="text-base-content/70">We use essential cookies to keep you logged in and to ensure the platform
+                functions correctly. We do not use advertising or tracking cookies. You can manage cookie preferences in
+                your browser settings, though disabling essential cookies may affect platform functionality.</p>
+        </div>
+
+        <!-- 08 Your rights -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s08">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">08</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Your rights</h2>
+            <p class="text-base-content/70 mb-3">Depending on your location, you may have rights to: access the personal
+                data we hold about you, correct inaccurate data, request deletion of your data, restrict or object to
+                certain processing, and receive your data in a portable format.</p>
+            <p class="text-base-content/70">To exercise any of these rights, contact us at <span
+                    class="text-primary">privacy@arclent.co</span>. We will respond within 30 days.</p>
+        </div>
+
+        <!-- 09 Children's privacy -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s09">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">09</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Children's privacy</h2>
+            <p class="text-base-content/70">Arclent is not directed at individuals under the age of 18. We do not
+                knowingly collect personal data from minors. If you believe a minor has provided us with personal data,
+                please contact us at privacy@arclent.co and we will delete it promptly.</p>
+        </div>
+
+        <!-- 10 Changes to this policy -->
+        <div class="mb-12 pb-12" style="border-bottom: var(--comic-border-thin);" id="s10">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">10</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Changes to this policy</h2>
+            <p class="text-base-content/70">We may update this policy from time to time. We will notify you of material
+                changes by email or by a prominent notice on the platform. The "Last updated" date at the top of this
+                page reflects the most recent revision. Continued use of Arclent after changes take effect constitutes
+                acceptance of the updated policy.</p>
+        </div>
+
+        <!-- 11 Contact -->
+        <div class="mb-4" id="s11">
+            <div class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">11</div>
+            <h2 class="text-2xl font-bold tracking-tight mb-4">Contact &amp; data controller</h2>
+            <p class="text-base-content/70 mb-5">Arclent (OPC) Private Limited is the data controller for personal data
+                processed through arclent.co.</p>
+            <div class="comic-panel flex flex-col gap-3">
+                <div class="flex items-center gap-3 text-sm">
+                    <span
+                        class="text-[12px] font-semibold uppercase tracking-wide text-base-content/40 min-w-20">Company</span>
+                    <span>Arclent (OPC) Private Limited</span>
+                </div>
+                <div class="flex items-center gap-3 text-sm">
+                    <span
+                        class="text-[12px] font-semibold uppercase tracking-wide text-base-content/40 min-w-20">Email</span>
+                    <span class="text-primary">privacy@arclent.co</span>
+                </div>
+                <div class="flex items-center gap-3 text-sm">
+                    <span
+                        class="text-[12px] font-semibold uppercase tracking-wide text-base-content/40 min-w-20">Website</span>
+                    <span class="text-primary">arclent.co</span>
+                </div>
+                <div class="flex items-center gap-3 text-sm">
+                    <span
+                        class="text-[12px] font-semibold uppercase tracking-wide text-base-content/40 min-w-20">Location</span>
+                    <span class="text-base-content/70">Srinagar, Jammu &amp; Kashmir, India</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 pt-6 border-t border-base-300 text-xs text-base-content/40 text-center">
+            © 2025–2026 Arclent (OPC) Private Limited · arclent.co · All rights reserved
+        </div>
+
+    </div>
+
+    <style>
+        .ptab {
+            border-radius: 9999px;
+            border: 2px solid #000;
+            background: var(--comic-white);
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: var(--font-header);
+            padding: 0.4rem 0.9rem;
+            min-height: unset;
+            height: auto;
+        }
+
+        .ptab.tab-active,
+        .ptab:hover {
+            color: #000;
+            border-color: #000;
+            background: var(--comic-yellow);
+        }
+
+        .tabs-box {
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+    </style>
+
+    <script>
+        function showPanel(id, btn) {
+            document.querySelectorAll('.platform-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.ptab').forEach(b => b.classList.remove('tab-active'));
+            document.getElementById('panel-' + id).classList.remove('hidden');
+            btn.classList.add('tab-active');
+        }
+    </script>
+</body>
+
+
+
+{% include 'ui/navigation/footer.html'%}
+{% endblock content %}

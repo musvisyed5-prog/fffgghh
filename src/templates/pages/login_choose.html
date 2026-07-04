@@ -1,0 +1,77 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n static%}
+
+
+{% block head_title %}
+{% trans "Choose Your Account Type" %}
+{% endblock head_title %}
+
+{% block body %}
+
+<main class="p-6 space-y-5 min-h-screen " id="main">
+    {% include "ui/navigation/goback.html" %}
+
+    <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+            {% trans "Choose Your Role" %}
+        </h1>
+        <p class="text-lg  font-medium">
+            {% trans "Select how you'll be using Arclent" %}
+        </p>
+    </div>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-5 place-content-center h-full  mt-20">
+        <a href="{% url 'core:oauth_login' 'talent' %}{% if request.GET.next%}?next={{ request.GET.next }}{%endif%}"
+            class="card" style="background: var(--comic-green-light);">
+            <div class=" rounded-box flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-10 ">
+                <div class="w-[40%] overflow-hidden h-64">
+                    <img src="{% static 'assests/ill/talent.svg' %}" alt="creator">
+                </div>
+                <div class="  ">
+                    <h2 class="text-3xl font-bold mb-6">{% trans "I Am a Talent" %}</h2>
+                    <ul class="space-y-4 mb-10 grow">
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "I want to get hired" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Get a badge that proves I'm real and skilled" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Show my work so recruiters notice me" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Help verify others and earn rewards" %}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+        <a class="card" style="background: var(--comic-orange-light);"
+        href="{% url 'choose-role' %}{% if request.GET.next%}?next={{ request.GET.next }}{%endif%}">
+            <div class=" rounded-box flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-10">
+                <div class="w-[40%]">
+                    <img src="{% static 'assests/ill/rec.svg' %}" alt="company">
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">{% trans "I Am a Recruiter " %}</h2>
+                    <ul class="space-y-4 mb-10 grow">
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "I want to hire people" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Show me talent who are already checked and trusted" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Post a job in a few minutes" %}</span>
+                        </li>
+                        <li class="flex items-start space-x-3 ">
+                            <span class="font-medium">{% trans "Find the right person faster" %}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </section>
+</main>
+
+{% endblock %}

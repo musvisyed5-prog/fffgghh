@@ -1,0 +1,13 @@
+{% load allauth %}
+<form
+    class="my-4 flex flex-col space-y-2 {{attrs.class}}"
+    method="{{ attrs.method }}"
+    {% if attrs.action %}action="{{ attrs.action }}"{% endif %}
+    {% if attrs.enctype %}enctype="{{ attrs.enctype }}"{% endif %}
+    {% if attrs.data_persist %}data-persist="garlic"{% endif %}
+>
+    {% slot body %}
+    {% endslot %}
+    {% slot actions %}
+    {% endslot %}
+</form>

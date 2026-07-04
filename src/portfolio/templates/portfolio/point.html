@@ -1,0 +1,112 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n static allauth%}
+
+
+{% block head_title %}
+{% trans "My points" %}
+{% endblock head_title %}
+
+{% block content %}
+{% element h1 %}
+{% trans "My points" %}
+{%endelement%}
+
+{% element p %}
+{% trans "Track your earned points, monitor your progress, and see how your activity contributes to your overall score."%}
+{% endelement %}
+
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 w-full">
+    <div class="comic-stat comic-stat-yellow">
+        <p>{% trans "Total Points"%}</p>
+        <h2>{{total_points}}</h2>
+    </div>
+
+    <div class="comic-stat comic-stat-green">
+        <p>{% trans "Total Value" %}</p>
+        <h2 class="flex flex-row space-x-2 items-center">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+
+            </span>
+            <span>
+                {{total_value}}
+            </span>
+        </h2>
+    </div>
+    <div class="comic-stat comic-stat-blue">
+        <p>{% trans "Active Points" %}</p>
+        <div class="flex flex-row space-x-4 items-end">
+
+            <h2 class="flex flex-row space-x-2 items-center">
+                {{active_points}}
+            </h2>
+            <div>
+                /
+            </div>
+            <h3 class="flex flex-row space-x-2 items-center text-sm">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                </span>
+                <span>
+                    {{active_value}}
+                </span>
+            </h3>
+        </div>
+
+    </div>
+</div>
+
+<h1 class="text-sm font-bold uppercase tracking-wider mb-4" style="font-family: var(--font-header); color: var(--comic-dark);">{% trans "History" %}</h1>
+
+<div class="overflow-x-auto">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th></th>
+                <th>{% trans "Value" %}</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Expire Date" %}</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for point in points %}
+            <tr>
+                <th>{{forloop.counter}}</th>
+                <td>{{point.point_value}}</td>
+                <td>{{point.date_created|timesince}} ago</td>
+                <td>{{ point.days_left }} day{{ point.days_left|pluralize }} left</td>
+                <td>
+                    {% if not point.is_redeemed %}
+                    <div class="badge badge-primary">{% trans "Active" %}</div>
+                    {% elif point.is_redeemed %}
+                    <div class="badge badge-warning">{% trans "Redeemed" %}</div>
+                    {% elif point.is_expired %}
+                    <div class="badge badge-error">{% trans "Expired" %}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center py-10">
+                    {% trans "No Point to show." %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

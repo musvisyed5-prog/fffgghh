@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<h2>{% trans "Application Status Update" %}</h2>
+
+<p>{% blocktrans with name=name %}Dear {{ name }},{% endblocktrans %}</p>
+
+<p>
+{% blocktrans with job_title=job_title status=status %}
+Your application for <strong>{{ job_title }}</strong> has been updated to:
+<strong>{{ status }}</strong>.
+{% endblocktrans %}
+</p>
+
+{% if reason %}
+<p>
+<strong>{% trans "Reason" %}:</strong> {{ reason }}
+</p>
+{% endif %}
+
+<p>
+<a href="{{ application_url }}">{% trans "View your application" %}</a>
+</p>
+
+<p>
+{% trans "Best regards," %}<br>
+{% trans "The Hiring Team" %}
+</p>

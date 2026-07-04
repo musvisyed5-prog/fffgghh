@@ -1,0 +1,20 @@
+{% load i18n static %}
+
+<dialog id="share_modal" class="modal modal-middle">
+    <div class="modal-box space-y-4">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h2 class="text-3xl font-black mb-2">
+           {% trans "Get Your Diamond Badge" %}
+        </h2>
+        <p>{% trans "Send this link to your client and invite them to confirm your copperation. "  %}</p>
+
+        <div class="flex flex-row items-center space-x-2">
+            <input type="text" readonly id="share-link">
+            <button class="btn btn-outline btn-success md:btn-lg" onclick="ShareLink()" id="share-buuton">{% trans "Copy"%}</button>
+        </div>
+    </div>
+</dialog>
+
+<script src="{% static 'javascript/sharelink.js' %}"></script>

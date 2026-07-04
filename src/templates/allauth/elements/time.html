@@ -1,0 +1,7 @@
+{% comment %} djlint:off {% endcomment %}
+
+{% load allauth  static %}
+
+<time class="local-datetime" datetime="{{ attrs.time|date:'c' }}"></time>
+
+<script src="{% static 'javascript/time.js' %}"></script>

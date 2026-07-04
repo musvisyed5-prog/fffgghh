@@ -1,0 +1,95 @@
+{% extends "allauth/layouts/withnavbar.html" %}
+{% load i18n %}
+{% load static allauth%}
+
+{% block head_title %}
+{% if job %}
+{% blocktrans with name=job.title|title %} {{ name }}{% endblocktrans %}
+{% else %}
+{% trans "Create job" %}
+{% endif %}
+{% endblock head_title %}
+
+{% block content %}
+
+<div role="alert" class="alert alert-error alert-outline">
+    <span>{% trans "This job posting is part of the free trial. Once the trial period ends, the job will no longer be visible to applicants." %}</span>
+</div>
+<div class="mt-6 flex flex-row items-center justify-between">
+    <div>
+        {% if job %}
+        <div class="space-y-2 indicator">
+            <h1 class="text-3xl font-bold mt-4">
+                {{job.title}}
+            </h1>
+            {% if job.is_active%}
+            <span class="indicator-item badge badge-dash badge-primary">{% trans 'Active' %}</span>
+            {% else %}
+            <span class="indicator-item badge badge-dash badge-error">{% trans 'Inactive' %}</span>
+            {% endif %}
+        </div>
+        {% else %}
+        {% element h1 %} {% trans "Create Job" %}{%endelement%}
+        {% endif %}
+        {% element p %}
+        {% trans 'Manage Your Job Posting' %}
+        {% endelement%}
+    </div>
+    {% if job %}
+    <a href="{% url 'job:job_detail' job.pk %}" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        </svg>
+    </a>
+    {% endif %}
+</div>
+
+{% if job %}
+<div class="divider">{% trans "Timeline" %}</div>
+<div class="flex items-center justify-between my-4">
+  {% element p %}
+  {% trans "Date created" %}:
+  {% element time time=job.date_created %}{% endelement %}
+  {% endelement %}
+
+  {% element p %}
+  {% trans "Last update" %}:
+  {% element time time=job.date_updated %}{% endelement %}
+  {% endelement %}
+</div>
+{% endif %}
+<div class="divider">{% trans "Job details" %}</div>
+<main id="main">
+    {{ form.media }}
+    <div class="comic-panel">
+        {%if job %}
+        {% url 'job:job_update' job.pk as upsert_url %}
+        {% else %}
+        {% url 'job:job_create' as upsert_url %}
+        {% endif %}
+        {% element form form=form data_persist='true' method="post" action=upsert_url class="grid gird-cols-1 md:grid-cols-2 gap-5"%}
+
+        {% slot body %}
+        {% csrf_token %}
+        {% element fields form=form %}{% endelement %}
+        {% endslot %}
+        {% slot actions %}
+        {% element button type="submit" class="col-span-full btn btn-primary md:btn-lg" %}
+        {% if job %}{% trans "Save changes" %}{% else %}{% trans "Next" %}{% endif %}
+        {% endelement %}
+        {% endslot %}
+        {% endelement %}
+    </div>
+</main>
+
+
+
+{% endblock content %}
+
+{% block extra_body %}
+<script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="{% static 'javascript/garlic.js' %}"></script>
+<script src="{% static 'javascript/ai.js' %}"></script>
+{% endblock extra_body %}

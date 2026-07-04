@@ -1,0 +1,104 @@
+{% comment %} djlint:off {% endcomment %}
+
+{% load allauth i18n split_tag%}
+
+<a href="{% url 'job:job_detail' job.pk %}" class="block h-full">
+    <article class="card h-full" style="display:flex; flex-direction:column;">
+        <div class="card-body p-5 flex flex-col gap-0" style="flex:1;">
+
+            <!-- ── HEADER: logo + company + title + platform icon ── -->
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="avatar shrink-0">
+                        <div class="w-12 h-12 rounded-lg" style="border:2px solid #000; overflow:hidden; background:#f5f5f5; display:flex; align-items:center; justify-content:center;">
+                            {% if job.company %}
+                            <img src="{{ job.company.logo_url }}"
+                                 alt="{{ job.company.name }}"
+                                 onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.company.name|urlencode }}&backgroundColor=fbbf24&textColor=000000'"
+                                 style="width:100%; height:100%; object-fit:cover;" />
+                            {% else %}
+                            <img src="{{ job.recruter_profile.image }}"
+                                 alt="{{ job.recruter_profile.name }}"
+                                 onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed={{ job.title|urlencode }}&backgroundColor=22c55e&textColor=000000'"
+                                 style="width:100%; height:100%; object-fit:cover;" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-bold opacity-50 uppercase tracking-widest truncate">
+                            {% if job.company %}{{ job.company.name }}{% else %}{{ job.recruter_profile.name }}{% endif %}
+                        </p>
+                        <h2 class="card-title text-base leading-snug mt-0.5">{{ job.title }}</h2>
+                    </div>
+                </div>
+                <!-- Platform icon -->
+                <div class="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg" style="border:2px solid #000; background:#fff; box-shadow:2px 2px 0 #000;">
+                    <img src="
+                        {% if job.platform == 'youtube' %}https://cdn.simpleicons.org/youtube/ff0000
+                        {% elif job.platform == 'instagram' %}https://cdn.simpleicons.org/instagram/e1306c
+                        {% elif job.platform == 'facebook' %}https://cdn.simpleicons.org/facebook/1877f2
+                        {% elif job.platform == 'twitter' or job.platform == 'x' %}https://cdn.simpleicons.org/x/000000
+                        {% elif job.platform == 'discord' %}https://cdn.simpleicons.org/discord/5865f2
+                        {% elif job.platform == 'twitch' %}https://cdn.simpleicons.org/twitch/9146ff
+                        {% elif job.platform == 'tiktok' %}https://cdn.simpleicons.org/tiktok/000000
+                        {% elif job.platform == 'linkedin' %}https://cdn.simpleicons.org/linkedin/0a66c2
+                        {% else %}https://cdn.simpleicons.org/rss/f97316
+                        {% endif %}" class="w-5 h-5" alt="{{ job.platform }}" />
+                </div>
+            </div>
+
+            <!-- ── DESCRIPTION ── -->
+            <p class="text-sm line-clamp-2 mb-4" style="opacity:0.65; line-height:1.55;">{{ job.desc }}</p>
+
+            <!-- ── META PILLS ── -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <!-- Job Type -->
+                <span class="badge badge-sm"
+                    style="{% if job.type == 'FT' %}background:#d1fae5;{% elif job.type == 'PT' %}background:#ffedd5;{% else %}background:#e0f2fe;{% endif %} color:#000; border:2px solid #000; box-shadow:2px 2px 0 #000;">
+                    {% if job.type == 'FT' %}⚡{% elif job.type == 'PT' %}🕐{% else %}📋{% endif %}
+                    {{ job.get_type_display }}
+                </span>
+                <!-- Experience -->
+                <span class="badge badge-sm" style="background:#faf7f2; color:#000; border:2px solid #000; box-shadow:2px 2px 0 #000;">
+                    🎯
+                    {% if job.exp_min == 0 and job.exp_max is None %}
+                        Freshers
+                    {% elif job.exp_max %}
+                        {{ job.exp_min|floatformat:0 }}-{{ job.exp_max|floatformat:0 }} yrs
+                    {% else %}
+                        {{ job.exp_min|floatformat:0 }}+ yrs
+                    {% endif %}
+                </span>
+                <!-- Salary -->
+                <span class="badge badge-sm" style="background:#fef9c3; color:#000; border:2px solid #000; box-shadow:2px 2px 0 #000;">
+                    💰
+                    {% if job.salary_min and job.salary_max %}
+                        ₹{{ job.salary_min|floatformat:0 }}-{{ job.salary_max|floatformat:0 }}
+                    {% else %}
+                        {% trans "Not disclosed" %}
+                    {% endif %}
+                </span>
+                <!-- Location -->
+                <span class="badge badge-sm" style="background:#faf7f2; color:#000; border:2px solid #000; box-shadow:2px 2px 0 #000;">
+                    📍 {{ job.location }}
+                </span>
+            </div>
+
+            <!-- ── SKILL TAGS ── -->
+            {% if job.tags %}
+            <div class="flex flex-wrap gap-1.5 mb-4">
+                {% for tag in job.tags|split:"," %}
+                <span class="badge badge-neutral badge-sm">{{ tag|title|truncatechars:20 }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- ── FOOTER: timestamp + CTA ── -->
+            <div class="flex items-center justify-between mt-auto pt-4" style="border-top:2px solid #000;">
+                <p class="text-xs font-semibold opacity-50">{{ job.date_created|timesince }} ago</p>
+                <span class="btn btn-primary btn-sm" style="pointer-events:none;">Apply Now →</span>
+            </div>
+
+        </div>
+    </article>
+</a>

@@ -1,0 +1,54 @@
+{% load i18n group_tags%}
+
+{% if not request.user.is_authenticated %}
+<li>
+    <a class="{{ nav_anchor }}" href="{% url 'job:job_list' %}">
+        {% trans "Find Jobs" %}
+    </a>
+</li>
+<li>
+    <a class="{{ nav_anchor }}" href="{% url 'portfolio:talents'%}">
+        {% trans "Talents" %}
+    </a>
+</li>
+<li>
+    <a class="{{ nav_anchor }}" href="/#how-it-works">
+        {% trans "How it works" %}
+    </a>
+</li>
+{% else %}
+
+{% if user|has_group:"talent" %}
+<li>
+    <a href="{% url 'portfolio:talent_details' request.user.public_id %}" class="{{ nav_anchor }}">
+        {% trans "My Portfolio" %}</a>
+</li>
+<li>
+    <a href="{% url 'job:job_list' %}" class="{{ nav_anchor }}">{% trans "Find Jobs" %}</a>
+</li>
+<li>
+    <a href="{% url 'job:owned_applications' %}" class="{{ nav_anchor }}">
+        {% trans "My Applications" %}
+    </a>
+</li>
+{% endif %}
+
+{% if user|has_group:"creator" or user|has_group:"company" %}
+<li>
+    <a href="{% url 'job:owned_jobs'%}" class="{{ nav_anchor }}">{% trans "Manage Jobs" %}</a>
+</li>
+{% endif %}
+
+{% if user|has_group:"creator" %}
+<li>
+    <a href="{% url 'portfolio:my_points' %}" class="{{ nav_anchor }}">{% trans "My Points" %}</a>
+</li>
+{% endif %}
+
+{% if user|has_group:"company" %}
+<li>
+    <a href="{% url 'company:company_profile' %}" class="{{ nav_anchor }}">{% trans "Manage Company" %}</a>
+</li>
+{% endif %}
+
+{% endif %}
