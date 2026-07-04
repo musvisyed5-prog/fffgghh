@@ -255,20 +255,20 @@
 
 .hero-title {
   font-family: var(--font-header);
-  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 900;
-  line-height: 1.05;
-  color: var(--comic-dark);
+  line-height: 1;
+  color: #111827;
   margin-bottom: 1.5rem;
-  letter-spacing: -0.02em;
-  text-shadow: 4px 4px 0px var(--comic-yellow);
-  -webkit-text-stroke: 1.5px #000;
+  letter-spacing: -0.04em;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .hero-title .gradient-text {
-  background: none;
-  -webkit-text-fill-color: initial;
-  background-clip: initial;
+  background: linear-gradient(135deg, #22c55e 0%, #047857 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   color: var(--comic-green);
 }
 
